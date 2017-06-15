@@ -1,0 +1,22 @@
+Fix Puzzle load
+Create one puzzle
+Work on travel
+Create Combat system
+
+- enemies random number
+
+- turn dice, whos turn.
+
+- if run (low chance), roll dice (costs turn) can do any time
+
+- check stats for one enemy (costs turn) can do any time
+
+- attack, take damage
+
+- if player dead, run or enemies dead combat end
+
+- if player dead, game over
+
+- if enemies dead, reward player, back to menu
+
+- if run, back to menu.
