@@ -43,12 +43,14 @@ void Event::puzzleEncouter(Character &character)
 	bool completed = false;
 	int userAns = 0;
 	int chances = 3;
+	int gainExp = (chances * character.getLevel() * (rand()%10 + 1));
 	//H:\ConsoleRPG\ConsoleRPG\
 	
 	Puzzle puzzle("Puzzles/1.txt");
 
 	while (!completed && chances > 0)
 	{
+		std::cout << "Chances: " << chances << "\n\n";
 		chances--;
 		std::cout << puzzle.getAsString() << "\n";
 
@@ -60,17 +62,18 @@ void Event::puzzleEncouter(Character &character)
 		{
 			completed = true;
 
-			//GIVE USER EXP ETC AND CONTINUE
+			character.gainExp(gainExp);
+			std::cout << "YOU GAINED " << gainExp << " EXP!" << "\n\n";
 		}
 	}
 
 	if (completed)
 	{
-		std::cout << "CONGRATZ YOU SUCCEDED! \n";
+		std::cout << "CONGRATZ YOU SUCCEDED! \n\n";
 	}
 	else
 	{
-		std::cout << "YOU FAILED BRAH! \n";
+		std::cout << "YOU FAILED BRAH! \n\n";
 	}
 }
 

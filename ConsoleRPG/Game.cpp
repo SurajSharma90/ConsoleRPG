@@ -21,6 +21,12 @@ void Game::initGame()
 
 void Game::mainMenu()
 {
+	if (this->characters[activeCharacter].getExp() >=
+		this->characters[activeCharacter].getExpNext())
+	{
+		std::cout << "LEVEL UP AVAILABLE! \n\n";
+	}
+
 	std::cout << "= MAIN MENU =" << std::endl << std::endl;
 
 	std::cout << "0: Quit" << std::endl;
@@ -47,6 +53,11 @@ void Game::mainMenu()
 
 	case 1: //TRAVEL
 		Travel();
+
+		break;
+
+	case 3: //LEVEL UP
+		this->characters[activeCharacter].levelUp();
 
 		break;
 

@@ -34,7 +34,7 @@ public:
 	//Modifier
 	inline void setDistTravelled(const int& distance) { this->distanceTravelled = distance; }
 	inline void travel() { this->distanceTravelled++; }
-
+	inline void gainExp(const int& exp) { this->exp += exp; }
 private:
 	double xPos;
 	double yPos;
