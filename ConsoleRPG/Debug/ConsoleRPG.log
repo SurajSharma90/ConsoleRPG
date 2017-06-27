@@ -1,4 +1,4 @@
-﻿  Event.cpp
+﻿  Game.cpp
 h:\consolerpg\consolerpg\inventory.h(25): warning C4018: '<': signed/unsigned mismatch
   ConsoleRPG.vcxproj -> H:\ConsoleRPG\Debug\ConsoleRPG.exe
   ConsoleRPG.vcxproj -> H:\ConsoleRPG\Debug\ConsoleRPG.pdb (Full PDB)

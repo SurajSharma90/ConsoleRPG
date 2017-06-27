@@ -4,6 +4,9 @@
 #include"Event.h"
 #include<ctime>
 #include<vector>
+#include<sstream>
+
+using namespace std;
 
 class Game
 {

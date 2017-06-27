@@ -24,25 +24,25 @@ void Game::mainMenu()
 	if (this->characters[activeCharacter].getExp() >=
 		this->characters[activeCharacter].getExpNext())
 	{
-		std::cout << "LEVEL UP AVAILABLE! \n\n";
+		cout << "LEVEL UP AVAILABLE! \n\n";
 	}
 
-	std::cout << "= MAIN MENU =" << std::endl << std::endl;
+	cout << "= MAIN MENU =" << endl << endl;
 
-	std::cout << "0: Quit" << std::endl;
-	std::cout << "1: Travel" << std::endl;
-	std::cout << "2: Shop" << std::endl;
-	std::cout << "3: Level up" << std::endl;
-	std::cout << "4: Rest" << std::endl;
-	std::cout << "5: Character sheet" << std::endl;
-	std::cout << "6: Create new character" << std::endl;
-	std::cout << "7: Save characters" << std::endl;
-	std::cout << "8: Load characters" << std::endl;
-	std::cout << std::endl;
+	cout << "0: Quit" << endl;
+	cout << "1: Travel" << endl;
+	cout << "2: Shop" << endl;
+	cout << "3: Level up" << endl;
+	cout << "4: Rest" << endl;
+	cout << "5: Character sheet" << endl;
+	cout << "6: Create new character" << endl;
+	cout << "7: Save characters" << endl;
+	cout << "8: Load characters" << endl;
+	cout << endl;
 
-	std::cout << std::endl << "Choice: ";
-	std::cin >> choice;
-	std::cout << std::endl;
+	cout << endl << "Choice: ";
+	cin >> choice;
+	cout << endl;
 
 	switch (choice)
 	{
@@ -68,7 +68,7 @@ void Game::mainMenu()
 
 	case 6:
 		//system("cls");
-		std::cin.ignore();
+		cin.ignore();
 		createNewCharacter();
 		saveCharacters();
 		break;
@@ -90,9 +90,9 @@ void Game::mainMenu()
 
 void Game::createNewCharacter()
 {
-	std::string name = "";
-	std::cout << "Character name: ";
-	std::getline(std::cin, name);
+	string name = "";
+	cout << "Character name: ";
+	getline(cin, name);
 
 	characters.push_back(Character());
 	activeCharacter = characters.size() - 1;
@@ -101,7 +101,7 @@ void Game::createNewCharacter()
 
 void Game::saveCharacters()
 {
-	std::ofstream outFile(fileName);
+	ofstream outFile(fileName);
 
 	if (outFile.is_open())
 	{
@@ -116,7 +116,64 @@ void Game::saveCharacters()
 
 void Game::loadCharacters()
 {
+	ifstream inFile(fileName);
 
+	this->characters.clear();
+
+	string name = "";
+	int distanceTravelled = 0;
+	int gold = 0;
+	int level = 0;
+	int exp = 0;
+	int strength = 0;
+	int vitality = 0;
+	int dexterity = 0;
+	int intelligence = 0;
+	int hp = 0;
+	int stamina = 0;
+	int statPoints = 0;
+	int skillPoints = 0;
+
+	string line = "";
+	stringstream str;
+
+	if (inFile.is_open())
+	{
+		while (getline(inFile, line))
+		{
+			str.str(line);
+			str >> name;	
+			str >> distanceTravelled;
+			str >> gold;
+			str >> level;
+			str >> exp;
+			str >> strength;
+			str >> vitality;
+			str >> dexterity;
+			str >> intelligence;
+			str >> hp;
+			str >> stamina;
+			str >> statPoints;
+			str >> skillPoints;
+
+			Character temp(name, distanceTravelled, gold, level,
+				exp, strength, vitality, dexterity, intelligence,
+				hp, stamina, statPoints, skillPoints);
+
+			this->characters.push_back(Character(temp));
+
+			cout << "Character " << name << " loaded!\n";
+		
+			str.clear();
+		}
+	}
+
+	inFile.close();
+
+	if (this->characters.size() <= 0)
+	{
+		throw "ERROR! NO CHARACTERS LOADED OR EMPTY FILE!";
+	}
 }
 
 void Game::Travel()
