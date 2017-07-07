@@ -80,7 +80,7 @@ void Character::initialize(const string name)
 
 	this->name = name;
 	this->level = 1;
-	this->exp = 0;
+	this->exp = 100;
 	this->expNext = static_cast<int>(
 		(50 / 3)*((pow(level, 3)
 			- 6 * pow(level, 2))
@@ -143,6 +143,39 @@ void Character::updateStats()
 	this->luck = this->intelligence;
 }
 
+void Character::addToStat(int stat, int value)
+{
+	if (this->statPoints < value)
+		cout << "ERROR! NOT ENOUGH STATPOINTS!" << "\n";
+	else
+	{
+		switch (stat)
+		{
+		case 0:
+			this->strength += value;
+			break;
+
+		case 1:
+			this->vitality += value;
+			break;
+
+		case 2:
+			this->dexterity += value;
+			break;
+
+		case 3:
+			this->intelligence += value;
+			break;
+
+		default:
+			cout << "NO SUCH STAT!" << "\n";
+			break;
+		}
+
+		this->statPoints -= value;
+	}
+}
+
 void Character::levelUp()
 {
 	if (this->exp >= this->expNext)
@@ -155,6 +188,8 @@ void Character::levelUp()
 
 		this->statPoints++;
 		this->skillPoints++;
+
+		this->updateStats();
 
 		cout << "YOU ARE NOW LEVEL " << this->level << "!" << "\n\n";
 	}

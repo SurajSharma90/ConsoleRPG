@@ -54,10 +54,22 @@ void Event::puzzleEncouter(Character &character)
 		chances--;
 		std::cout << puzzle.getAsString() << "\n";
 
-		std::cout << "\nYour ANSWER: ";
-		std::cin >> userAns;
-		std::cout << "\n";
-	
+		cout << "\nYour ANSWER: ";
+		cin >> userAns;
+
+		while (cin.fail())
+		{
+			cout << "Faulty input!" << "\n";
+			cin.clear();
+			cin.ignore(100, '\n');
+
+			cout << "\nYour ANSWER: ";
+			cin >> userAns;				
+		}
+		
+		cin.ignore(100, '\n');
+		cout << "\n";
+
 		if (puzzle.getCorrectAns() == userAns)
 		{
 			completed = true;
