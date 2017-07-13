@@ -25,5 +25,14 @@ std::string Enemy::getAsString()const
 		"Defence: " + std::to_string(this->defence) + "\n" +
 		"Accuracy: " + std::to_string(this->accuracy) + "\n" +
 		"Drop chance: " + std::to_string(this->dropChance) + "\n";
+}
 
+void Enemy::takeDamage(int damage)
+{
+	this->hp -= damage; 
+
+	if (this->hp <= 0)
+	{
+		this->hp = 0;
+	}
 }

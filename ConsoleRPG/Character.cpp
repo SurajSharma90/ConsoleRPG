@@ -153,18 +153,23 @@ void Character::addToStat(int stat, int value)
 		{
 		case 0:
 			this->strength += value;
+			cout << "STRENGTH INCREASED!" << "\n";
+
 			break;
 
 		case 1:
 			this->vitality += value;
+			cout << "VITALITY INCREASED!" << "\n";
 			break;
 
 		case 2:
 			this->dexterity += value;
+			cout << "DEXTERITY INCREASED!" << "\n";
 			break;
 
 		case 3:
 			this->intelligence += value;
+			cout << "INTELLIGENCE INCREASED!" << "\n";
 			break;
 
 		default:
@@ -214,4 +219,14 @@ string Character::getAsString() const
 		+ to_string(stamina) + " "
 		+ to_string(statPoints) + " "
 		+ to_string(skillPoints);
+}
+
+void Character::takeDamage(const int damage)
+{
+	this->hp -= damage;
+
+	if (this->hp <= 0)
+	{
+		this->hp = 0;
+	}
 }

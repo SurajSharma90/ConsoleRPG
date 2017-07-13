@@ -3,6 +3,7 @@
 #include"Character.h"
 #include"Puzzle.h"
 #include<stdlib.h>
+#include"dArr.h"
 
 class Event
 {
@@ -12,10 +13,10 @@ private:
 public:
 	Event();
 	virtual ~Event();
-	void generateEvent(Character &character);
+	void generateEvent(Character &character, dArr<Enemy>& enemies);
 
 	//Events
-	void enemyEncouter(Character &character);
+	void enemyEncouter(Character &character, dArr<Enemy>& enemies);
 	void puzzleEncouter(Character &character);
 };
 

@@ -24,8 +24,6 @@ public:
 	void updateStats();
 	void addToStat(int stat, int value);
 
-
-
 	//Accessors
 	inline const int& getDistTravel() const { return this->distanceTravelled; }
 	inline const std::string& getName() const { return this->name; }
@@ -35,9 +33,11 @@ public:
 	inline const int& getStatPoints() const { return this->statPoints; }
 	inline const int& getHP() const { return this->hp; }
 	inline const int& getHPMax() const { return this->hpMax; }
+	inline const bool isAlive() { return this->hp > 0; }
 	inline const int& getStamina() const { return this->stamina; }
 	inline const int& getDamageMin() const { return this->damageMin; }
 	inline const int& getDamageMax() const { return this->damageMax; }
+	inline const int getDamage()const { return rand() % this->damageMax + this->damageMin; }
 	inline const int& getDefence() const { return this->defence; }
 	inline const int& getAccuracy() const { return this->accuracy; }
 
@@ -45,6 +45,8 @@ public:
 	inline void setDistTravelled(const int& distance) { this->distanceTravelled = distance; }
 	inline void travel() { this->distanceTravelled++; }
 	inline void gainExp(const int& exp) { this->exp += exp; }
+	void takeDamage(const int damage);
+
 private:
 	int distanceTravelled;
 
