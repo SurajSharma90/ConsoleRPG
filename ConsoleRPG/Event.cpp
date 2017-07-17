@@ -56,14 +56,17 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 
 	for (size_t i = 0; i < nrOfEnemies; i++)
 	{
-		enemies.push(Enemy(character.getLevel()));
+		enemies.push(Enemy(character.getLevel() + rand()%3));
 	}
 
 	//Battle variables
-	int attackRoll = 0;
-	int defendRoll = 0;
 	int damage = 0;
 	int gainExp = 0;
+	int playerTotal = 0;
+	int enemyTotal = 0;
+	int combatTotal = 0;
+	int combatRollPlayer = 0;
+	int combatRollEnemy = 0;
 
 	while (!escape  && !playerDefeated && !enemiesDefeated)
 	{
@@ -123,8 +126,10 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 				{
 					cout << i << ": "
 						<< "Level: " << enemies[i].getLevel() << " - " <<
-						"HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax()
-						<< "\n";
+						"HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() << " - " <<
+						"Defence: " << enemies[i].getDefence() << " - " <<
+						"Accuracy: " << enemies[i].getAccuracy() << " - " <<
+						"\n";
 				}
 
 				cout << "\n";
@@ -146,9 +151,24 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 				cin.ignore(100, '\n');
 				cout << "\n";
 
-				attackRoll = rand() % 100 + 1;
+				//Attack roll
 
-				if (attackRoll > 50) //Hit
+				combatTotal = enemies[choice].getDefence() + character.getAccuracy();
+				enemyTotal = enemies[choice].getDefence() / (double)combatTotal * 100;
+				playerTotal = character.getAccuracy() / (double)combatTotal * 100;
+				combatRollPlayer = rand() % playerTotal + 1;
+				combatRollEnemy = rand() % enemyTotal + 1;
+
+			/*	cout << combatTotal << "\n";
+				cout << enemyTotal << "\n";
+				cout << playerTotal << "\n";
+				cout << combatRollPlayer << "\n";
+				cout << combatRollEnemy << "\n";*/
+
+				cout << "Player roll: " << combatRollPlayer << "\n";
+				cout << "Enemy roll: " << combatRollEnemy << "\n\n";
+
+				if (combatRollPlayer > combatRollEnemy) //Hit
 				{
 					cout << "HIT! " << "\n\n";
 					

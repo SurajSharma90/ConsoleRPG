@@ -80,29 +80,17 @@ void Character::initialize(const string name)
 
 	this->name = name;
 	this->level = 1;
-	this->exp = 100;
-	this->expNext = static_cast<int>(
-		(50 / 3)*((pow(level, 3)
-			- 6 * pow(level, 2))
-			+ 17 * level - 12)) + 100;
+	this->exp = 10000;
 
 	this->strength = 5;
 	this->vitality = 5;
 	this->dexterity = 5;
 	this->intelligence = 5;
 
-	this->hpMax = (this->vitality * 2) + (this->strength/2);
-	this->hp = hpMax;
-	this->staminaMax = this->vitality + (this->strength/2) + (this->dexterity/3);
-	this->stamina = this->staminaMax;
-	this->damageMin = this->strength;
-	this->damageMax = this->strength + 2;
-	this->defence = this->dexterity + (this->intelligence/2);
-	this->accuracy = (this->dexterity / 2);
-	this->luck = this->intelligence;
-
 	this->statPoints = 0;
 	this->skillPoints = 0;
+
+	this->updateStats();
 }
 
 void Character::printStats() const
@@ -136,10 +124,11 @@ void Character::updateStats()
 
 	this->hpMax = (this->vitality * 2) + (this->strength / 2);
 	this->staminaMax = this->vitality + (this->strength / 2) + (this->dexterity / 3);
+	this->stamina = this->staminaMax;
 	this->damageMin = this->strength;
 	this->damageMax = this->strength + 2;
 	this->defence = this->dexterity + (this->intelligence / 2);
-	this->accuracy = (this->dexterity / 2);
+	this->accuracy = (this->dexterity / 2) + intelligence;
 	this->luck = this->intelligence;
 }
 
