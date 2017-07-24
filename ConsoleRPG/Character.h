@@ -40,7 +40,6 @@ private:
 	int luck;
 
 	int statPoints;
-	int skillPoints;
 
 public:
 	Character();
@@ -48,7 +47,7 @@ public:
 		int gold, int level,
 		int exp, int strength, int vitality,
 		int dexterity, int intelligence,
-		int hp, int stamina, int statPoints, int skillPoints);
+		int hp, int stamina, int statPoints);
 	virtual ~Character();
 
 	//Functions
@@ -79,7 +78,8 @@ public:
 	//Modifier
 	inline void setDistTravelled(const int& distance) { this->distanceTravelled = distance; }
 	inline void travel() { this->distanceTravelled++; }
-	inline void gainExp(const int& exp) { this->exp += exp; }
+	inline void gainExp(const int exp) { this->exp += exp; }
+	inline void gainGold(const int gold) { this->gold += gold; }
 	void takeDamage(const int damage);
 };
 

@@ -1,4 +1,10 @@
-﻿  Character.cpp
+﻿  Event.cpp
 h:\consolerpg\consolerpg\inventory.h(25): warning C4018: '<': signed/unsigned mismatch
+h:\consolerpg\consolerpg\event.cpp(57): warning C4018: '<': signed/unsigned mismatch
+h:\consolerpg\consolerpg\event.cpp(148): warning C4018: '>=': signed/unsigned mismatch
+h:\consolerpg\consolerpg\event.cpp(164): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+h:\consolerpg\consolerpg\event.cpp(165): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+h:\consolerpg\consolerpg\event.cpp(237): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+h:\consolerpg\consolerpg\event.cpp(238): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   ConsoleRPG.vcxproj -> H:\ConsoleRPG\Debug\ConsoleRPG.exe
   ConsoleRPG.vcxproj -> H:\ConsoleRPG\Debug\ConsoleRPG.pdb (Full PDB)

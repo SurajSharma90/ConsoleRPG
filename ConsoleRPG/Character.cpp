@@ -27,14 +27,13 @@ Character::Character()
 	this->luck = 0;
 
 	this->statPoints = 0;
-	this->skillPoints = 0;
 }
 
 Character::Character(string name, int distanceTravelled,
 	int gold, int level,
 	int exp, int strength, int vitality, 
 	int dexterity, int intelligence,
-	int hp, int stamina, int statPoints, int skillPoints)
+	int hp, int stamina, int statPoints)
 {
 	this->distanceTravelled = distanceTravelled;
 
@@ -61,7 +60,6 @@ Character::Character(string name, int distanceTravelled,
 	this->luck = 0;
 
 	this->statPoints = statPoints;
-	this->skillPoints = skillPoints;
 
 	this->updateStats();
 }
@@ -88,9 +86,10 @@ void Character::initialize(const string name)
 	this->intelligence = 5;
 
 	this->statPoints = 0;
-	this->skillPoints = 0;
 
 	this->updateStats();
+
+	this->hp = this->hpMax;
 }
 
 void Character::printStats() const
@@ -100,6 +99,7 @@ void Character::printStats() const
 	cout << "= Level: " << this->level << endl;
 	cout << "= Exp: " << this->exp << endl;
 	cout << "= Exp to next level: " << this->expNext << endl;
+	cout << "= Statpoints: " << this->statPoints << endl;
 	cout << endl;
 	cout << "= Strenght: " << this->strength << endl;
 	cout << "= Vitality: " << this->vitality << endl;
@@ -113,6 +113,24 @@ void Character::printStats() const
 	cout << "= Accuracy: " << this->accuracy << endl;
 	cout << "= Luck: " << this->luck << endl;
 	cout << endl;
+	cout << "= Distance Travelled: " << this->distanceTravelled << endl;
+	cout << "= Gold: " << this->gold << endl;
+	cout << endl;
+	cout << "= Weapon: " << this->weapon.getName() 
+		<< " Lvl: " << this->weapon.getLevel() 
+		<< " Dam: " << this->weapon.getDamageMin() << " - " << this->weapon.getDamageMax() << endl;
+	cout << "= Armor Head: " << this->armor_head.getName()
+		<< " Lvl: " << this->armor_head.getLevel()
+		<< " Def: " << this->armor_head.getDefence() << endl;
+	cout << "= Armor Chest: " << this->armor_chest.getName()
+		<< " Lvl: " << this->armor_chest.getLevel()
+		<< " Def: " << this->armor_chest.getDefence() << endl;
+	cout << "= Armor Arms: " << this->armor_arms.getName()
+		<< " Lvl: " << this->armor_arms.getLevel()
+		<< " Def: " << this->armor_arms.getDefence() << endl;
+	cout << "= Armor Legs: " << this->armor_legs.getName()
+		<< " Lvl: " << this->armor_legs.getLevel()
+		<< " Def: " << this->armor_legs.getDefence() << endl;
 }
 
 void Character::updateStats()
@@ -122,7 +140,7 @@ void Character::updateStats()
 			- 6 * pow(level, 2))
 			+ 17 * level - 12)) + 100;
 
-	this->hpMax = (this->vitality * 2) + (this->strength / 2);
+	this->hpMax = (this->vitality * 2) + (this->strength / 2) + this->level*5;
 	this->staminaMax = this->vitality + (this->strength / 2) + (this->dexterity / 3);
 	this->stamina = this->staminaMax;
 	this->damageMin = this->strength;
@@ -167,6 +185,8 @@ void Character::addToStat(int stat, int value)
 		}
 
 		this->statPoints -= value;
+
+		this->updateStats();
 	}
 }
 
@@ -181,9 +201,10 @@ void Character::levelUp()
 			+ 17 * level - 12)) + 100;
 
 		this->statPoints++;
-		this->skillPoints++;
 
 		this->updateStats();
+
+		this->hp = this->hpMax;
 
 		cout << "YOU ARE NOW LEVEL " << this->level << "!" << "\n\n";
 	}
@@ -206,8 +227,7 @@ string Character::getAsString() const
 		+ to_string(intelligence) + " "
 		+ to_string(hp) + " "
 		+ to_string(stamina) + " "
-		+ to_string(statPoints) + " "
-		+ to_string(skillPoints);
+		+ to_string(statPoints);
 }
 
 void Character::takeDamage(const int damage)

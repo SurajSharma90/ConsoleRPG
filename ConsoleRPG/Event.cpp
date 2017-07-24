@@ -62,20 +62,27 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 	//Battle variables
 	int damage = 0;
 	int gainExp = 0;
+	int gainGold = 0;
 	int playerTotal = 0;
 	int enemyTotal = 0;
 	int combatTotal = 0;
 	int combatRollPlayer = 0;
 	int combatRollEnemy = 0;
 
-	while (!escape  && !playerDefeated && !enemiesDefeated)
+	while (!escape && !playerDefeated && !enemiesDefeated)
 	{
 		if (playerTurn && !playerDefeated)
 		{
 			//Menu
 			//system("CLS");
 
+			cout << "= PLAYER TURN =" << "\n\n";
+			cout << "Continue..." << "\n\n";
+			cin.get();
+			system("CLS");
+
 			cout << "= BATTLE MENU =" << "\n\n";
+			cout << "HP: " << character.getHP() << " / " << character.getHPMax() << "\n\n";
 
 			cout << "0: Escape" << "\n";
 			cout << "1: Attack" << "\n";
@@ -129,6 +136,7 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 						"HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() << " - " <<
 						"Defence: " << enemies[i].getDefence() << " - " <<
 						"Accuracy: " << enemies[i].getAccuracy() << " - " <<
+						"Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() <<
 						"\n";
 				}
 
@@ -152,18 +160,11 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 				cout << "\n";
 
 				//Attack roll
-
 				combatTotal = enemies[choice].getDefence() + character.getAccuracy();
 				enemyTotal = enemies[choice].getDefence() / (double)combatTotal * 100;
 				playerTotal = character.getAccuracy() / (double)combatTotal * 100;
 				combatRollPlayer = rand() % playerTotal + 1;
 				combatRollEnemy = rand() % enemyTotal + 1;
-
-			/*	cout << combatTotal << "\n";
-				cout << enemyTotal << "\n";
-				cout << playerTotal << "\n";
-				cout << combatRollPlayer << "\n";
-				cout << combatRollEnemy << "\n";*/
 
 				cout << "Player roll: " << combatRollPlayer << "\n";
 				cout << "Enemy roll: " << combatRollEnemy << "\n\n";
@@ -182,7 +183,13 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 						cout << "ENEMY DEFEATED!" << "\n\n";
 						gainExp = enemies[choice].getExp();
 						character.gainExp(gainExp);
-						cout << "EXP GAINED: " << gainExp << "\n\n";
+						gainGold = rand() % enemies[choice].getLevel() * 10 + 1;
+						character.gainGold(gainGold);
+						cout << "EXP GAINED: " << gainExp << "\n";
+						cout << "GOLD GAINED: " << gainGold << "\n\n";
+
+
+
  						enemies.remove(choice);
 					}
 				}
@@ -208,12 +215,53 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 			//End turn
 			playerTurn = false;
 		}
-		else if(!playerTurn && !escape && !enemiesDefeated)
+		else if(!playerTurn && !playerDefeated && !escape && !enemiesDefeated)
 		{
+			cout << "= ENEMY TURN =" << "\n";
+
+			cout << "Continue..." << "\n\n";		
+			cin.get();
+			system("CLS");
+
 			//Enemy attack
 			for (size_t i = 0; i < enemies.size(); i++)
 			{
+				cout << "Continue..." << "\n\n";
+				cin.get();
+				system("CLS");
+				
+				cout << "Enemy: " << i << "\n\n";
 
+				//Attack roll
+				combatTotal = enemies[i].getAccuracy() + character.getDefence();
+				enemyTotal = enemies[i].getAccuracy() / (double)combatTotal * 100;
+				playerTotal = character.getDefence() / (double)combatTotal * 100;
+				combatRollPlayer = rand() % playerTotal + 1;
+				combatRollEnemy = rand() % enemyTotal + 1;
+
+				cout << "Player roll: " << combatRollPlayer << "\n";
+				cout << "Enemy roll: " << combatRollEnemy << "\n\n";
+
+				if (combatRollPlayer < combatRollEnemy) //Hit
+				{
+					cout << "HIT! " << "\n\n";
+
+					damage = enemies[i].getDamage();
+					character.takeDamage(damage);
+
+					cout << "Damage: " << damage << "!" << "\n";
+					cout << "HP: " << character.getHP() << " / " << character.getHPMax() << "\n\n";
+
+					if (!character.isAlive())
+					{
+						cout << "YOU ARE DEFEATED!" << "\n\n";
+						playerDefeated = true;
+					}
+				}
+				else //Miss
+				{
+					cout << "MISSED! \n\n";
+				}
 			}
 
 			//End turn
@@ -227,7 +275,6 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 		}
 		else if (enemies.size() <= 0)
 		{
-
 			enemiesDefeated = true;
 		}
 	}
@@ -239,6 +286,7 @@ void Event::puzzleEncouter(Character &character)
 	int userAns = 0;
 	int chances = 3;
 	int gainExp = (chances * character.getLevel() * (rand()%10 + 1));
+	int gainGold = (chances * character.getLevel() * (rand() % 10 + 1));
 	//H:\ConsoleRPG\ConsoleRPG\
 	
 	Puzzle puzzle("Puzzles/1.txt");
@@ -270,7 +318,9 @@ void Event::puzzleEncouter(Character &character)
 			completed = true;
 
 			character.gainExp(gainExp);
-			std::cout << "YOU GAINED " << gainExp << " EXP!" << "\n\n";
+			character.gainExp(gainGold);
+			std::cout << "YOU GAINED " << gainExp << " EXP!" << "\n";
+			std::cout << "YOU GAINED " << gainGold << " GOLD!" << "\n\n";
 		}
 	}
 

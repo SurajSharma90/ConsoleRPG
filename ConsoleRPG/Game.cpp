@@ -16,7 +16,18 @@ Game::~Game()
 //Functions
 void Game::initGame()
 {
-	createNewCharacter();
+	ifstream in;
+	in.open("characters.txt");
+
+	if (in.is_open())
+		this->loadCharacters();
+	else
+	{
+		createNewCharacter();
+		this->saveCharacters();
+	}
+
+	in.close();	
 }
 
 void Game::mainMenu()
@@ -25,88 +36,116 @@ void Game::mainMenu()
 	cin.get();
 	system("CLS");
 
-	if (this->characters[activeCharacter].getExp() >=
-		this->characters[activeCharacter].getExpNext())
+	if (this->characters[activeCharacter].isAlive())
 	{
-		cout << "LEVEL UP AVAILABLE! \n\n";
-	}
+		if (this->characters[activeCharacter].getExp() >=
+			this->characters[activeCharacter].getExpNext())
+		{
+			cout << "LEVEL UP AVAILABLE! \n\n";
+		}
 
-	cout << "= MAIN MENU =" << "\n" << "\n";
+		cout << "= MAIN MENU =" << "\n" << "\n";
 
-	cout << "= Active character: " << 
-		this->characters[activeCharacter].getName() << " Nr: " <<
-		this->activeCharacter+1 << "/" << this->characters.size() << 
-		" =" << "\n" << "\n";
+		cout << "= Active character: " <<
+			this->characters[activeCharacter].getName() << " Nr: " <<
+			this->activeCharacter + 1 << "/" << this->characters.size() <<
+			" =" << "\n" << "\n";
 
-	cout << "0: Quit" << "\n";
-	cout << "1: Travel" << "\n";
-	cout << "2: Shop" << "\n";
-	cout << "3: Level up" << "\n";
-	cout << "4: Rest" << "\n";
-	cout << "5: Character sheet" << "\n";
-	cout << "6: Create new character" << "\n";
-	cout << "7: Select character" << "\n";
-	cout << "8: Save characters" << "\n";
-	cout << "9: Load characters" << "\n";
+		cout << "0: Quit" << "\n";
+		cout << "1: Travel" << "\n";
+		cout << "2: Shop" << "\n";
+		cout << "3: Level up" << "\n";
+		cout << "4: Rest" << "\n";
+		cout << "5: Character sheet" << "\n";
+		cout << "6: Create new character" << "\n";
+		cout << "7: Select character" << "\n";
+		cout << "8: Save characters" << "\n";
+		cout << "9: Load characters" << "\n";
 
-	cout << "\n";
-
-	cout << "\n" << "Choice: ";
-	cin >> this->choice;
-
-	while(cin.fail()) 
-	{
-		cout << "Faulty input!" << "\n";
-		cin.clear();
-		cin.ignore(100, '\n');
+		cout << "\n";
 
 		cout << "\n" << "Choice: ";
 		cin >> this->choice;
+
+		while (cin.fail())
+		{
+			cout << "Faulty input!" << "\n";
+			cin.clear();
+			cin.ignore(100, '\n');
+
+			cout << "\n" << "Choice: ";
+			cin >> this->choice;
+		}
+
+		cin.ignore(100, '\n');
+		cout << "\n";
+
+		switch (this->choice)
+		{
+		case 0: //QUIT
+			playing = false;
+			this->saveCharacters();
+
+			break;
+
+		case 1: //TRAVEL
+			Travel();
+
+			break;
+
+		case 3: //LEVEL UP
+			this->levelUpCharacter();
+
+			break;
+
+		case 5: //CHAR SHEET
+			characters[activeCharacter].printStats();
+			break;
+
+		case 6: //CREATE NEW CHAR
+			createNewCharacter();
+			saveCharacters();
+			break;
+
+		case 7: //SELECT CHAR
+			selectCharacter();
+			break;
+
+		case 8: //SAVE CHARS
+			saveCharacters();
+			break;
+
+		case 9: //LOAD CHARS
+			loadCharacters();
+			break;
+
+		default:
+			break;
+		}
 	}
-	
-	cin.ignore(100, '\n');
-	cout << "\n";
-
-	switch (this->choice)
+	else
 	{
-	case 0: //QUIT
-		playing = false;
-		
-		break;
+		cout << "= YOU ARE DEAD, LOAD? =" << "\n" << "\n";
+		cout << "(0) Yes, (1) No " << "\n";
+		cin >> this->choice;
 
-	case 1: //TRAVEL
-		Travel();
+		while (cin.fail() || this->choice < 0 || this->choice > 1)
+		{
+			cout << "Faulty input!" << "\n";
+			cin.clear();
+			cin.ignore(100, '\n');
+			
+			cout << "(0) Yes, (1) No " << "\n";
+			cin >> this->choice;
+		}
 
-		break;
+		cin.ignore(100, '\n');
+		cout << "\n";
 
-	case 3: //LEVEL UP
-		this->levelUpCharacter();
-
-		break;
-
-	case 5: //CHAR SHEET
-		characters[activeCharacter].printStats();
-		break;
-
-	case 6: //CREATE NEW CHAR
-		createNewCharacter();
-		saveCharacters();
-		break;
-
-	case 7: //SELECT CHAR
-		selectCharacter();
-		break;
-
-	case 8: //SAVE CHARS
-		saveCharacters();
-		break;
-	
-	case 9: //LOAD CHARS
-		loadCharacters();
-		break;
-
-	default:
-		break;
+		if (this->choice == 0)
+			this->loadCharacters();
+		else
+			playing = false;
 	}
 }
 
@@ -218,7 +257,6 @@ void Game::loadCharacters()
 	int hp = 0;
 	int stamina = 0;
 	int statPoints = 0;
-	int skillPoints = 0;
 
 	string line = "";
 	stringstream str;
@@ -240,11 +278,10 @@ void Game::loadCharacters()
 			str >> hp;
 			str >> stamina;
 			str >> statPoints;
-			str >> skillPoints;
 
 			Character temp(name, distanceTravelled, gold, level,
 				exp, strength, vitality, dexterity, intelligence,
-				hp, stamina, statPoints, skillPoints);
+				hp, stamina, statPoints);
 
 			this->characters.push_back(Character(temp));
 
