@@ -36,7 +36,8 @@ public:
 	void saveCharacters();
 	void loadCharacters();
 	void selectCharacter();
-	void Travel();
+	void travel();
+	void rest();
 
 	//Accessors
 	inline bool getPlaying() const { return this->playing; }
