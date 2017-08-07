@@ -1,10 +1,8 @@
 #pragma once
 
-#include"Functions.h"
+#include"STLINCLUDE.h"
+
 #include"Event.h"
-#include<ctime>
-#include<vector>
-#include<sstream>
 
 using namespace std;
 
@@ -33,6 +31,7 @@ public:
 	void mainMenu();
 	void createNewCharacter();
 	void levelUpCharacter();
+	void characterMenu();
 	void saveCharacters();
 	void loadCharacters();
 	void selectCharacter();

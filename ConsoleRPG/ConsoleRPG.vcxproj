@@ -162,6 +162,7 @@
     <ClInclude Include="Functions.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Puzzle.h" />
+    <ClInclude Include="STLINCLUDE.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />

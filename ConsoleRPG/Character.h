@@ -1,7 +1,7 @@
 #pragma once
 
+#include"STLINCLUDE.h"
 #include"Inventory.h"
-#include"Enemy.h"
 
 using namespace std;
 
@@ -53,11 +53,16 @@ public:
 	//Functions
 	void initialize(const std::string name);
 	void printStats() const;
-	std::string getAsString()const;
+	string getAsString()const;
+	string getInvAsString();
+	string getInvAsStringSave();
 	void levelUp();
 	void updateStats();
 	void addToStat(int stat, int value);
+	void equipItem(unsigned index);
 	inline void resetHP() { this->hp = this->hpMax; }
+	void addItem(const Item &item) { this->inventory.addItem(item); }
+
 
 	//Accessors
 	inline const int& getDistTravel() const { return this->distanceTravelled; }
@@ -72,10 +77,12 @@ public:
 	inline const int& getStamina() const { return this->stamina; }
 	inline const int& getDamageMin() const { return this->damageMin; }
 	inline const int& getDamageMax() const { return this->damageMax; }
-	inline const int getDamage()const { return rand() % this->damageMax + this->damageMin; }
+	inline const int getDamage()const { return rand() % (this->damageMax + this->weapon.getDamageMax()) + (this->damageMin + this->weapon.getDamageMin()); }
 	inline const int& getDefence() const { return this->defence; }
+	inline const int getAddedDefence()const { return this->armor_arms.getDefence() + this->armor_chest.getDefence() + this->armor_legs.getDefence() + this->armor_head.getDefence(); }
 	inline const int& getAccuracy() const { return this->accuracy; }
 	inline const int getGold() const { return this->gold; }
+	inline const int getInventorySize()const { return this->inventory.size(); }
 
 	//Modifier
 	inline void setDistTravelled(const int& distance) { this->distanceTravelled = distance; }
@@ -84,5 +91,10 @@ public:
 	inline void gainGold(const int gold) { this->gold += gold; }
 	inline void payGold(const int gold) { this->gold -= gold; }
 	void takeDamage(const int damage);
+	inline void setWeapon(Weapon weapon) { this->weapon = weapon; }
+	inline void setArmorHead(Armor armor_head) { this->armor_head = armor_head; }
+	inline void setArmorChest(Armor armor_chest) { this->armor_chest = armor_chest; }
+	inline void setArmorArms(Armor armor_arms) { this->armor_arms = armor_arms; }
+	inline void setArmorLegs(Armor armor_legs) { this->armor_legs = armor_legs; }
 };
 

@@ -19,6 +19,9 @@ void Game::initGame()
 	ifstream in;
 	in.open("characters.txt");
 
+	Weapon::initNames();
+	Armor::initNames();
+
 	if (in.is_open())
 		this->loadCharacters();
 	else
@@ -104,7 +107,7 @@ void Game::mainMenu()
 			break;
 
 		case 5: //CHAR SHEET
-			characters[activeCharacter].printStats();
+			this->characterMenu();
 			break;
 
 		case 6: //CREATE NEW CHAR
@@ -229,15 +232,94 @@ void Game::levelUpCharacter()
 	}
 }
 
+void Game::characterMenu()
+{
+	do
+	{
+		system("CLS");
+		cout << "= CHARACTER MENU = " << "\n\n";
+
+		characters[activeCharacter].printStats();
+
+		cout << "= MENU =" << "\n";
+		cout << "0: Back" << "\n";
+		cout << "1: Print Inventory" << "\n";
+		cout << "2: Equip Item" << "\n";
+		cout << "\n";
+		cout << "Choice: ";
+
+		cin >> this->choice;
+
+		while (cin.fail() || this->choice < 0 || this->choice > 2)
+		{
+			cout << "Faulty input!" << "\n";
+			cin.clear();
+			cin.ignore(100, '\n');
+
+			cout << "= MENU =" << "\n";
+			cout << "0: Back" << "\n";
+			cout << "1: Print Inventory" << "\n";
+			cout << "2: Equip Item" << "\n";
+			cout << "\n";
+			cout << "Choice: ";
+			cin >> this->choice;
+		}
+
+		cin.ignore(100, '\n');
+		cout << "\n";
+
+		switch (this->choice)
+		{
+		case 1:
+			cout << this->characters[this->activeCharacter].getInvAsString();
+
+			break;
+
+		case 2:
+			cout << this->characters[this->activeCharacter].getInvAsString();
+			
+			cout << "Item index: ";
+			cin >> this->choice;
+
+			while (cin.fail() || this->choice < 0 || this->choice >= this->characters[this->activeCharacter].getInventorySize())
+			{
+				cout << "Faulty input!" << "\n";
+				cin.clear();
+				cin.ignore(100, '\n');
+
+				cout << "Item index: ";
+				cin >> this->choice;
+			}
+
+			cin.ignore(100, '\n');
+			cout << "\n";
+			
+			this->characters[this->activeCharacter].equipItem(this->choice);
+
+			break;
+		default:
+			break;
+		}
+
+		if (this->choice > 0)
+		{
+			cout << "ENTER to continue..." << "\n";
+			cin.get();
+		}
+	
+	} while (this->choice > 0);
+}
+
 void Game::saveCharacters()
 {
 	ofstream outFile(fileName);
 
 	if (outFile.is_open())
 	{
-		for (size_t i = 0; i < characters.size(); i++)
+		for (size_t i = 0; i < this->characters.size(); i++)
 		{
-			outFile << characters[i].getAsString() << "\n";
+			outFile << this->characters[i].getAsString() << "\n";
+			outFile << this->characters[i].getInvAsStringSave() << "\n";	
 		}
 	}
 
@@ -263,6 +345,20 @@ void Game::loadCharacters()
 	int stamina = 0;
 	int statPoints = 0;
 
+	//Item
+	int itemType = 0;
+	int defence = 0;
+	int type = 0;
+	int damageMin = 0;
+	int damageMax = 0;
+	//name
+	//level
+	int buyValue = 0;
+	int sellValue = 0;
+	int rarity = 0;
+
+	Inventory tempItems;
+
 	string line = "";
 	stringstream str;
 
@@ -284,13 +380,111 @@ void Game::loadCharacters()
 			str >> stamina;
 			str >> statPoints;
 
+			//Create characyer
 			Character temp(name, distanceTravelled, gold, level,
 				exp, strength, vitality, dexterity, intelligence,
 				hp, stamina, statPoints);
 
+			//Weapon
+			str >>
+				itemType >> name >> level >>
+				rarity >> buyValue >> sellValue >>
+				damageMin >> damageMax;
+
+			Weapon weapon(damageMin, damageMax, name, level, buyValue, sellValue, rarity);	
+
+			//Armor head
+			str >>
+				itemType >> name >> level >>
+				rarity >> buyValue >> sellValue >>
+				defence >> type;
+
+			Armor armor_head(type, defence, name, level, buyValue, sellValue, rarity);
+
+			//Armor chest
+			str >>
+				itemType >> name >> level >>
+				rarity >> buyValue >> sellValue >>
+				defence >> type;
+
+			Armor armor_chest(type, defence, name, level, buyValue, sellValue, rarity);	
+
+			//Armor arms
+			str >>
+				itemType >> name >> level >>
+				rarity >> buyValue >>sellValue >>
+				defence >> type;
+
+			Armor armor_arms(type, defence, name, level, buyValue, sellValue, rarity);
+
+			//Armor legs
+			str >>
+				itemType >> name >> level >>
+				rarity >> buyValue >> sellValue >>
+				defence >> type;
+
+			Armor armor_legs(type, defence, name, level, buyValue, sellValue, rarity);
+
+			temp.setWeapon(weapon);
+			temp.setArmorHead(armor_head);
+			temp.setArmorChest(armor_chest);
+			temp.setArmorArms(armor_arms);
+			temp.setArmorLegs(armor_legs);
+
+			//Add Inventory Items
+			str.clear();
+			line.clear();
+			getline(inFile, line);
+			
+			str.str(line);
+
+			while (str >> 
+				itemType >> name >> level >> 
+				rarity >> buyValue >> sellValue >> 
+				damageMin >> damageMax)
+			{
+				temp.addItem(
+					Weapon
+					(
+						damageMin,
+						damageMax,
+						name,
+						level,
+						buyValue,
+						sellValue,
+						rarity
+					)
+				);
+			}
+
+			str.clear();
+			line.clear();
+			getline(inFile, line);
+
+			str.str(line);
+
+			while (str >>
+				itemType >> name >> level >>
+				rarity >> buyValue >> sellValue >>
+				defence >> type)
+			{
+				temp.addItem(
+					Armor
+					(
+						type,
+						defence,
+						name,
+						level,
+						buyValue,
+						sellValue,
+						rarity
+					)
+				);
+			}
+
 			this->characters.push_back(Character(temp));
 
-			cout << "Character " << name << " loaded!\n";
+			cout << "Character " << temp.getName() << " loaded!\n";
 		
 			str.clear();
 		}

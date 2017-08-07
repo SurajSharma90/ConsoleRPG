@@ -166,6 +166,9 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 				combatRollPlayer = rand() % playerTotal + 1;
 				combatRollEnemy = rand() % enemyTotal + 1;
 
+				cout << "Combat total: " << combatTotal << "\n";
+				cout << "Enemy percent: " << enemyTotal << "\n";
+				cout << "Player percent: " << playerTotal << "\n\n";
 				cout << "Player roll: " << combatRollPlayer << "\n";
 				cout << "Enemy roll: " << combatRollEnemy << "\n\n";
 
@@ -188,7 +191,56 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 						cout << "EXP GAINED: " << gainExp << "\n";
 						cout << "GOLD GAINED: " << gainGold << "\n\n";
 
+						//Item roll
+						int roll = rand() % 100 + 1;
+						int rarity = -1;
 
+						if (roll > 20)
+						{
+							rarity = 0; //Common
+							
+							roll = rand() % 100 + 1;
+							if (roll > 30)
+							{
+								rarity = 1; //Uncommon
+
+								roll = rand() % 100 + 1;
+								if (roll > 50)
+								{
+									rarity = 2; //Rare
+
+									roll = rand() % 100 + 1;
+									if (roll > 70)
+									{
+										rarity = 3; //Legendary
+
+										roll = rand() % 100 + 1;
+										if (roll > 90)
+										{
+											rarity = 4; //Mythic
+										}
+									}
+								}
+							}
+						}
+
+						if (roll >= 0)
+						{
+							roll = rand() % 100 + 1;
+
+							if (roll > 50)
+							{
+								Weapon tempW(character.getLevel(), rand() % 5);
+								character.addItem(tempW);
+								cout << "WEAPON DROP!" << "\n";
+							}
+							else
+							{
+								Weapon tempA(character.getLevel(), rand() % 5);
+								character.addItem(tempA);
+								cout << "ARMOR DROP!" << "\n";
+							}
+						}
 
  						enemies.remove(choice);
 					}
@@ -233,12 +285,15 @@ void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 				cout << "Enemy: " << i << "\n\n";
 
 				//Attack roll
-				combatTotal = enemies[i].getAccuracy() + character.getDefence();
+				combatTotal = enemies[i].getAccuracy() + (character.getDefence() + character.getAddedDefence());
 				enemyTotal = enemies[i].getAccuracy() / (double)combatTotal * 100;
-				playerTotal = character.getDefence() / (double)combatTotal * 100;
+				playerTotal = (character.getDefence() + character.getAddedDefence()) / (double)combatTotal * 100;
 				combatRollPlayer = rand() % playerTotal + 1;
 				combatRollEnemy = rand() % enemyTotal + 1;
 
+				cout << "Combat total: " << combatTotal << "\n";
+				cout << "Enemy percent: " << enemyTotal << "\n";
+				cout << "Player percent: " << playerTotal << "\n\n";
 				cout << "Player roll: " << combatRollPlayer << "\n";
 				cout << "Enemy roll: " << combatRollEnemy << "\n\n";
 

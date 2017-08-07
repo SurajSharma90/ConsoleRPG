@@ -78,7 +78,7 @@ void Character::initialize(const string name)
 
 	this->name = name;
 	this->level = 1;
-	this->exp = 10000;
+	this->exp = 0;
 
 	this->strength = 5;
 	this->vitality = 5;
@@ -106,8 +106,8 @@ void Character::printStats() const
 	cout << "\n";
 	cout << "= HP: " << this->hp << " / " << this->hpMax << "\n";
 	cout << "= Stamina: " << this->stamina << " / " << this->staminaMax << "\n";
-	cout << "= Damage: " << this->damageMin << " - "<< this->damageMax << "\n";
-	cout << "= Defence: " << this->defence << "\n";
+	cout << "= Damage: " << this->damageMin << "( +" << this->weapon.getDamageMin() << ")" << " - "<< this->damageMax << "( +" << this->weapon.getDamageMax() << ")" << "\n";
+	cout << "= Defence: " << this->defence << "\n" << "( +" << std::to_string(this->getAddedDefence()) << ")";
 	cout << "= Accuracy: " << this->accuracy << "\n";
 	cout << "= Luck: " << this->luck << "\n";
 	cout << "\n";
@@ -131,6 +131,82 @@ void Character::printStats() const
 		<< " Def: " << this->armor_legs.getDefence() << "\n" << "\n";
 }
 
+string Character::getAsString() const
+{
+	return name + " "
+		+ to_string(distanceTravelled) + " "
+		+ to_string(gold) + " "
+		+ to_string(level) + " "
+		+ to_string(exp) + " "
+		+ to_string(strength) + " "
+		+ to_string(vitality) + " "
+		+ to_string(dexterity) + " "
+		+ to_string(intelligence) + " "
+		+ to_string(hp) + " "
+		+ to_string(stamina) + " "
+		+ to_string(statPoints) + " "
+		+ this->weapon.toStringSave()
+		+ this->armor_head.toStringSave()
+		+ this->armor_chest.toStringSave()
+		+ this->armor_arms.toStringSave()
+		+ this->armor_legs.toStringSave();
+}
+
+string Character::getInvAsString()
+{
+	string inv;
+
+	for (size_t i = 0; i < this->inventory.size(); i++)
+	{
+		inv += to_string(i) + ": " + this->inventory[i].toString() + "\n";
+	}
+
+	return inv;
+}
+
+string Character::getInvAsStringSave()
+{
+	string inv;
+
+	for (size_t i = 0; i < this->inventory.size(); i++)
+	{
+		if(this->inventory[i].getItemType() == itemTypes::WEAPON)
+			inv += this->inventory[i].toStringSave();
+	}
+
+	inv += "\n";
+
+	for (size_t i = 0; i < this->inventory.size(); i++)
+	{
+		if (this->inventory[i].getItemType() == itemTypes::ARMOR)
+			inv += this->inventory[i].toStringSave();
+	}
+
+	return inv;
+}
+
+void Character::levelUp()
+{
+	if (this->exp >= this->expNext)
+	{
+		this->exp -= this->expNext;
+		this->level++;
+		this->expNext = static_cast<int>((50 / 3)*((pow(level, 3)
+			- 6 * pow(level, 2))
+			+ 17 * level - 12)) + 100;
+
+		this->statPoints++;
+
+		this->updateStats();
+
+		cout << "YOU ARE NOW LEVEL " << this->level << "!" << "\n\n";
+	}
+	else
+	{
+		cout << "NOT ENOUGH EXP!" << "\n\n";
+	}
+}
+
 void Character::updateStats()
 {
 	this->expNext = static_cast<int>(
@@ -138,7 +214,7 @@ void Character::updateStats()
 			- 6 * pow(level, 2))
 			+ 17 * level - 12)) + 100;
 
-	this->hpMax = (this->vitality * 2) + (this->strength / 2) + this->level*5;
+	this->hpMax = (this->vitality * 5) + (this->strength) + this->level*5;
 	this->staminaMax = this->vitality + (this->strength / 2) + (this->dexterity / 3);
 	this->stamina = this->staminaMax;
 	this->damageMin = this->strength;
@@ -190,42 +266,66 @@ void Character::addToStat(int stat, int value)
 	}
 }
 
-void Character::levelUp()
+void Character::equipItem(unsigned index)
 {
-	if (this->exp >= this->expNext)
+	if (index < 0 || index >= this->inventory.size())
 	{
-		this->exp -= this->expNext;
-		this->level++;
-		this->expNext = static_cast<int>((50 / 3)*((pow(level, 3)
-			- 6 * pow(level, 2))
-			+ 17 * level - 12)) + 100;
-
-		this->statPoints++;
-
-		this->updateStats();
-
-		cout << "YOU ARE NOW LEVEL " << this->level << "!" << "\n\n";
+		cout << "No valid item selected!" << "\n\n";
 	}
 	else
 	{
-		cout << "NOT ENOUGH EXP!" << "\n\n";
-	}
-}
+		Weapon *w = nullptr;
+		w = dynamic_cast<Weapon*>(&this->inventory[index]);
 
-string Character::getAsString() const
-{
-	return name + " "
-		+ to_string(distanceTravelled) + " "
-		+ to_string(gold) + " "
-		+ to_string(level) + " "
-		+ to_string(exp) + " "
-		+ to_string(strength) + " "
-		+ to_string(vitality) + " "
-		+ to_string(dexterity) + " "
-		+ to_string(intelligence) + " "
-		+ to_string(hp) + " "
-		+ to_string(stamina) + " "
-		+ to_string(statPoints);
+		Armor *a = nullptr;
+		a = dynamic_cast<Armor*>(&this->inventory[index]);
+
+		//Is weapon
+		if (w != nullptr)
+		{
+			if (this->weapon.getRarity() >= 0)
+				this->inventory.addItem(this->weapon);
+			this->weapon = *w;
+			this->inventory.removeItem(index);
+		}
+		else if (a != nullptr)
+		{
+			switch (a->getType())
+			{
+			case armorType::HEAD:
+				if (this->armor_head.getRarity() >= 0)
+					this->inventory.addItem(this->armor_head);
+				this->armor_head = *a;
+				this->inventory.removeItem(index);
+				break;
+			case armorType::CHEST:
+				if (this->armor_chest.getRarity() >= 0)
+					this->inventory.addItem(this->armor_chest);
+				this->armor_chest = *a;
+				this->inventory.removeItem(index);
+				break;
+			case armorType::ARMS:
+				if (this->armor_arms.getRarity() >= 0)
+					this->inventory.addItem(this->armor_arms);
+				this->armor_arms = *a;
+				this->inventory.removeItem(index);
+				break;
+			case armorType::LEGS:
+				if(this->armor_legs.getRarity() >= 0)
+					this->inventory.addItem(this->armor_legs);
+				this->armor_legs = *a;
+				this->inventory.removeItem(index);
+				break;
+			default:
+				cout << "ERROR ARMOR TYPE INVALID!" << "\n\n";
+				break;
+			}
+		}
+		else
+		{
+			cout << "ERROR EQUIP ITEM, ITEM IS NOT ARMOR OR WEAPON!";
+		}
+	}
 }
 
 void Character::takeDamage(const int damage)

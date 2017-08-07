@@ -81,7 +81,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dArr.h">
-      <Filter>Header Files</Filter>
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="STLINCLUDE.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

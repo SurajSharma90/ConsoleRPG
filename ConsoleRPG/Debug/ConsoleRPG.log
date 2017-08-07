@@ -1,8 +1,8 @@
-﻿  Game.cpp
-h:\consolerpg\consolerpg\inventory.h(25): warning C4018: '<': signed/unsigned mismatch
-h:\consolerpg\consolerpg\game.cpp(322): warning C4018: '>=': signed/unsigned mismatch
-  Character.cpp
-h:\consolerpg\consolerpg\inventory.h(25): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  Character.cpp
+h:\consolerpg\consolerpg\inventory.h(27): warning C4018: '<': signed/unsigned mismatch
+h:\consolerpg\consolerpg\character.cpp(159): warning C4018: '<': signed/unsigned mismatch
+h:\consolerpg\consolerpg\character.cpp(171): warning C4018: '<': signed/unsigned mismatch
+h:\consolerpg\consolerpg\character.cpp(179): warning C4018: '<': signed/unsigned mismatch
+h:\consolerpg\consolerpg\character.cpp(271): warning C4018: '>=': signed/unsigned mismatch
   ConsoleRPG.vcxproj -> H:\ConsoleRPG\Debug\ConsoleRPG.exe
   ConsoleRPG.vcxproj -> H:\ConsoleRPG\Debug\ConsoleRPG.pdb (Full PDB)

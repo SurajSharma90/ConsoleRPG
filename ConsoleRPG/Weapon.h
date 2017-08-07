@@ -1,4 +1,6 @@
 #pragma once
+
+#include"STLINCLUDE.h"
 #include"Item.h"
 
 class Weapon :
@@ -9,20 +11,35 @@ private:
 	int damageMax;
 
 public:
-	Weapon(int damageMin = 0, int damageMax = 0,
-		std::string name = "NONE", int level = 0, int buyValue = 0, 
-		int sellValue = 0, int rarity = 0);
+	Weapon();
+	Weapon(
+		int level, 
+		int rarity
+	);
+	Weapon(
+		int damageMin, 
+		int damageMax,
+		std::string name, 
+		int level, 
+		int buyValue, 
+		int sellValue, 
+		int rarity);
 	virtual ~Weapon();
 
 	//Pure virtual
 	virtual Weapon* clone()const;
 
 	//Functions
-	std::string toString();
+	std::string toString()const;
+	std::string toStringSave()const;
 
 	//Accessors
 	inline int getDamageMin()const { return this->damageMin; }
 	inline int getDamageMax()const { return this->damageMax; }
 
 	//Modifiers
+
+	//Static
+	static dArr<std::string> names;
+	static void initNames();
 };
