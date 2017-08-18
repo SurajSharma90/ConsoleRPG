@@ -54,7 +54,7 @@ public:
 	void initialize(const std::string name);
 	void printStats() const;
 	string getAsString()const;
-	string getInvAsString();
+	string getInvAsString(bool shop = false);
 	string getInvAsStringSave();
 	void levelUp();
 	void updateStats();
@@ -62,7 +62,8 @@ public:
 	void equipItem(unsigned index);
 	inline void resetHP() { this->hp = this->hpMax; }
 	void addItem(const Item &item) { this->inventory.addItem(item); }
-
+	void removeItem(const int index);
+	const Item& getItem(const int index);
 
 	//Accessors
 	inline const int& getDistTravel() const { return this->distanceTravelled; }

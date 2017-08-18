@@ -53,7 +53,7 @@ Weapon* Weapon::clone()const
 
 std::string Weapon::toString()const
 {
-	std::string str = 
+	std::string str =
 		this->getName()
 		+ " | Lvl: "
 		+ std::to_string(this->getLevel())
@@ -63,8 +63,6 @@ std::string Weapon::toString()const
 		+ std::to_string(this->damageMin)
 		+ " - "
 		+ std::to_string(this->damageMax);
-		+ " | Value: "
-		+ std::to_string(this->getSellValue());
 
 	return str;
 }

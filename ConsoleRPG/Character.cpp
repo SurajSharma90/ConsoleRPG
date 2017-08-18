@@ -152,13 +152,21 @@ string Character::getAsString() const
 		+ this->armor_legs.toStringSave();
 }
 
-string Character::getInvAsString()
+string Character::getInvAsString(bool shop)
 {
 	string inv;
 
 	for (size_t i = 0; i < this->inventory.size(); i++)
 	{
-		inv += to_string(i) + ": " + this->inventory[i].toString() + "\n";
+		if (shop)
+		{
+			inv += to_string(i) + ": " + this->inventory[i].toString() + "\n" + " - Sell value: "
+				+ std::to_string(this->inventory[i].getSellValue()) + "\n";
+		}
+		else
+		{
+			inv += to_string(i) + ": " + this->inventory[i].toString() + "\n";
+		}
 	}
 
 	return inv;
@@ -326,6 +334,27 @@ void Character::equipItem(unsigned index)
 			cout << "ERROR EQUIP ITEM, ITEM IS NOT ARMOR OR WEAPON!";
 		}
 	}
+}
+
+void Character::removeItem(const int index)
+{
+	if (index < 0 || index >= this->inventory.size())
+		cout << "ERROR, NOT POSSIBLE TO REMOVE ITEM, removeItem Character" << "\n\n";
+	else
+	{
+		this->inventory.removeItem(index);
+	}
+}
+
+const Item& Character::getItem(const int index)
+{
+	if (index < 0 || index >= this->inventory.size())
+	{
+		cout << "ERROR, NOT POSSIBLE TO REMOVE ITEM, getItem Character" << "\n\n";
+		throw("ERROR OUT OF BOUNDS, GETITEM CHARACTER");
+	}
+
+	return this->inventory[index];
 }
 
 void Character::takeDamage(const int damage)

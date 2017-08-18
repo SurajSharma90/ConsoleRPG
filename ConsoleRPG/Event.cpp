@@ -1,8 +1,12 @@
 #include "Event.h"
 
+int Event::nrOfEvents = 3;
+
+using namespace std;;
+
 Event::Event()
 {
-	this->nrOfEvents = 2;
+	
 }
 
 Event::~Event()
@@ -12,19 +16,21 @@ Event::~Event()
 
 void Event::generateEvent(Character &character, dArr<Enemy>& enemies)
 {
-	int i = rand() % this->nrOfEvents;
+	int i = rand() % Event::nrOfEvents;
 
 	switch (i)
 	{
 	case 0:
 		//Enemy encounter
-		enemyEncouter(character, enemies);
+		this->enemyEncouter(character, enemies);
 		break;
 	case 1:
 		//Puzzle
-		puzzleEncouter(character);
+		this->puzzleEncouter(character);
 		break;
 	case 2:
+		//Shop
+		this->shopEncouter(character);
 		break;
 
 	default:
@@ -33,6 +39,190 @@ void Event::generateEvent(Character &character, dArr<Enemy>& enemies)
 }
 
 //Different events
+void Event::shopEncouter(Character &character)
+{
+	int choice = 0;
+	bool shopping = true;
+	Inventory merchantInv;
+	string inv;
+	
+	//Init merchant inv
+	int nrOfItems = rand() % 20 + 10;
+	bool coinToss = false;
+
+	for (size_t i = 0; i < nrOfItems; i++)
+	{
+		coinToss = rand() % 1;
+
+		if(coinToss > 0)
+			merchantInv.addItem(Weapon(character.getLevel() + rand() % 5, rand() % 4));
+		else
+			merchantInv.addItem(Armor(character.getLevel() + rand() % 5, rand() % 4));
+	}
+
+	while (shopping)
+	{
+		system("CLS");
+
+		cout << "= SHOP MENU =" << "\n\n";
+
+		cout << "0: Leave" << "\n";
+		cout << "1: Buy" << "\n";
+		cout << "2: Sell" << "\n";
+		cout << "\n";
+
+		cout << "Choice: ";
+
+		cin >> choice;
+
+		while (cin.fail() || choice > 3 || choice < 0)
+		{
+			system("CLS");
+
+			cout << "Faulty input!" << "\n";
+			cin.clear();
+			cin.ignore(100, '\n');
+
+			cout << "= SHOP MENU =" << "\n\n";
+
+			cout << "0: Leave" << "\n";
+			cout << "1: Buy" << "\n";
+			cout << "2: Sell" << "\n";
+
+			cout << "\n";
+
+			cout << "Choice: ";
+			cin >> choice;
+		}
+
+		cin.ignore(100, '\n');
+		cout << "\n";
+
+		//Shop
+		switch (choice)
+		{
+		case 0: //Leave
+			shopping = false;
+			break;
+
+		case 1: //Buy
+
+			cout << "= BUY MENU =" << "\n\n";
+
+			cout << " - Gold: " <<character.getGold() << "\n\n";
+
+			inv.clear();
+
+			for (size_t i = 0; i < merchantInv.size(); i++)
+			{
+				inv += to_string(i) + ": " + merchantInv[i].toString() + "\n - PRICE: " + to_string(merchantInv[i].getBuyValue()) + "\n";
+			}
+
+			cout << inv << "\n";
+
+			cout << "Gold: " << character.getGold() << "\n";
+			cout << "Choice of item (-1 to cancel): ";
+
+			cin >> choice;
+
+			while (cin.fail() || choice > merchantInv.size() || choice < -1)
+			{
+				system("CLS");
+
+				cout << "Faulty input!" << "\n";
+				cin.clear();
+				cin.ignore(100, '\n');
+
+				cout << "Gold: " << character.getGold() << "\n";
+				cout << "Choice of item (-1 to cancel): ";
+				cin >> choice;
+			}
+
+			cin.ignore(100, '\n');
+			cout << "\n";
+
+			if (choice == -1)
+			{
+				cout << "Cancelled..." << "\n";
+			}
+			else if (character.getGold() >= merchantInv[choice].getBuyValue())
+			{
+				character.payGold(merchantInv[choice].getBuyValue());
+				character.addItem(merchantInv[choice]);
+				
+				cout << "Bought item " << merchantInv[choice].getName() << " -" << merchantInv[choice].getBuyValue() << "\n";
+				
+				merchantInv.removeItem(choice);
+			}
+			else
+			{
+				cout << "Can't afford this item!" << "\n";
+			}
+
+			break;
+
+		case 2: //Sell
+
+			cout << character.getInvAsString(true) << "\n";
+
+			cout << "= SELL MENU =" << "\n\n";
+
+			cout << " - Gold: " << character.getGold() << "\n\n";
+
+			if (character.getInventorySize() > 0)
+			{
+				cout << "Gold: " << character.getGold() << "\n";
+				cout << "Choice of item (-1 to cancel): ";
+
+				cin >> choice;
+
+				while (cin.fail() || choice > character.getInventorySize() || choice < -1)
+				{
+					system("CLS");
+
+					cout << "Faulty input!" << "\n";
+					cin.clear();
+					cin.ignore(100, '\n');
+
+					cout << "Gold: " << character.getGold() << "\n";
+					cout << "Choice of item (-1 to cancel): ";
+					cin >> choice;
+				}
+
+				cin.ignore(100, '\n');
+				cout << "\n";
+
+				if (choice == -1)
+				{
+					cout << "Cancelled..." << "\n";
+				}
+				else
+				{
+					character.gainGold(character.getItem(choice).getSellValue());
+
+					cout << "Item sold!" << "\n";
+					cout << "Gold earned: " << character.getItem(choice).getSellValue() << "\n\n";
+					character.removeItem(choice);
+				}
+			}
+			else
+			{
+				cout << "Inventory empty..." << "\n";
+			}
+
+			break;
+
+		default:
+			break;
+		}
+
+		cout << "ENTER to continue..." << "\n";
+		cin.get();
+	}
+
+	cout << "You left the shop.." << "\n\n";
+}
+
 void Event::enemyEncouter(Character &character, dArr<Enemy>& enemies)
 {
 	bool playerTurn = false;

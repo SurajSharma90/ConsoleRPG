@@ -56,27 +56,26 @@ void Game::mainMenu()
 
 		cout << "0: Quit" << "\n";
 		cout << "1: Travel" << "\n";
-		cout << "2: Shop" << "\n";
-		cout << "3: Level up" << "\n";
-		cout << "4: Rest" << "\n";
-		cout << "5: Character sheet" << "\n";
-		cout << "6: Create new character" << "\n";
-		cout << "7: Select character" << "\n";
-		cout << "8: Save characters" << "\n";
-		cout << "9: Load characters" << "\n";
+		cout << "2: Level up" << "\n";
+		cout << "3: Rest" << "\n";
+		cout << "4: Character sheet" << "\n";
+		cout << "5: Create new character" << "\n";
+		cout << "6: Select character" << "\n";
+		cout << "7: Save characters" << "\n";
+		cout << "8: Load characters" << "\n";
 
 		cout << "\n";
 
 		cout << "\n" << "Choice: ";
 		cin >> this->choice;
 
-		while (cin.fail())
+		while (cin.fail() || this->choice > 9)
 		{
 			cout << "Faulty input!" << "\n";
 			cin.clear();
 			cin.ignore(100, '\n');
 
-			cout << "\n" << "Choice: ";
+			cout << "\n" << "Choice (0 - 8): ";
 			cin >> this->choice;
 		}
 
@@ -96,34 +95,34 @@ void Game::mainMenu()
 
 			break;
 
-		case 3: //LEVEL UP
+		case 2: //LEVEL UP
 			this->levelUpCharacter();
 
 			break;
 
-		case 4: //REST
+		case 3: //REST
 			rest();
 
 			break;
 
-		case 5: //CHAR SHEET
+		case 4: //CHAR SHEET
 			this->characterMenu();
 			break;
 
-		case 6: //CREATE NEW CHAR
+		case 5: //CREATE NEW CHAR
 			createNewCharacter();
 			saveCharacters();
 			break;
 
-		case 7: //SELECT CHAR
+		case 6: //SELECT CHAR
 			selectCharacter();
 			break;
 
-		case 8: //SAVE CHARS
+		case 7: //SAVE CHARS
 			saveCharacters();
 			break;
 
-		case 9: //LOAD CHARS
+		case 8: //LOAD CHARS
 			loadCharacters();
 			break;
 

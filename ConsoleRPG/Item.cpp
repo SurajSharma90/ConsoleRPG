@@ -13,10 +13,10 @@ Item::Item()
 Item::Item(int itemType, int level, int rarity)
 {
 	this->name = "RANDOM";
-	this->level = rand() % (level+2) + 1;	
-	this->buyValue = level*this->rarity*10;
-	this->sellValue = this->buyValue / 2;
+	this->level = rand() % (level+2) + 1;
 	this->rarity = rarity;
+	this->buyValue = (this->level + this->rarity) + this->level*this->rarity*10;
+	this->sellValue = this->buyValue / 2;
 	this->itemType = itemType;
 }
 
