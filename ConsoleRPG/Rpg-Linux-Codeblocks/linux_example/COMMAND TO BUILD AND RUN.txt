@@ -1,0 +1,57 @@
+===================================================================================
+-0. Document contents
+===================================================================================
+
+-1. Using cmd or unix command-line
+-2. Using bash script in linux command-line or cmd in windows
+-3. Using makefile in linux
+-4. RULES FOR CODE::BLOCKS AND GNU (g++) COMPILING
+
+===================================================================================
+-1. Using cmd or unix command-line
+===================================================================================
+
+Step 1: Look at the code and make sure you have a semi-colon after the class definition.
+
+Step 2: g++ -c test.cpp //This will create the test.o file required for compilation
+
+Step 2.5: g++ -c main.cpp
+
+Step 3: Do this for all your .cpp files.
+
+Step 4: g++ -Wall -O2 -o main main.o test.o <and all .o files>
+
+Step 5: profit! Viola you got a program running. 
+
+===================================================================================
+-2. Using bash script in linux command-line or cmd in windows
+===================================================================================
+
+In linux: type "bash compile.sh"
+
+In windows: type "compile.sh"
+
+===================================================================================
+-3. Using makefile in linux
+===================================================================================
+
+In linux: Make sure to have make installed, then type; "make main" into the command-line.
+To clean the solution, type "clean main".
+
+===================================================================================
+-4. RULES FOR CODE::BLOCKS AND GNU (g++) COMPILING
+===================================================================================
+
+Make sure to follow these rules:
+To get code to work on code::blocks and linux:
+- Do not use std::to_string, instead include sstream and use the std::stringstream type.
+- Do not use the keyword nullptr, use NULL.
+- Do not use enums like this: enums::ENUM, instead use ENUM key directly.
+- When passing strings as parameters to ifstream and ofstream objects, make sure to use; filename.c_str()
+- Do not use #pragma once, instead use: 
+#ifndef FILENAME_H
+#define FILENAME_H
+
+//code ...
+
+#endif

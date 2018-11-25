@@ -1,14 +1,42 @@
-﻿  Event.cpp
-h:\consolerpg\consolerpg\inventory.h(27): warning C4018: '<': signed/unsigned mismatch
-h:\consolerpg\consolerpg\event.cpp(53): warning C4018: '<': signed/unsigned mismatch
-h:\consolerpg\consolerpg\event.cpp(55): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
-h:\consolerpg\consolerpg\event.cpp(57): warning C4804: '>': unsafe use of type 'bool' in operation
-h:\consolerpg\consolerpg\event.cpp(116): warning C4018: '<': signed/unsigned mismatch
-h:\consolerpg\consolerpg\event.cpp(247): warning C4018: '<': signed/unsigned mismatch
-h:\consolerpg\consolerpg\event.cpp(338): warning C4018: '>=': signed/unsigned mismatch
-h:\consolerpg\consolerpg\event.cpp(354): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-h:\consolerpg\consolerpg\event.cpp(355): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-h:\consolerpg\consolerpg\event.cpp(479): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-h:\consolerpg\consolerpg\event.cpp(480): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  ConsoleRPG.vcxproj -> H:\ConsoleRPG\Debug\ConsoleRPG.exe
-  ConsoleRPG.vcxproj -> H:\ConsoleRPG\Debug\ConsoleRPG.pdb (Full PDB)
+﻿  Weapon.cpp
+  Puzzle.cpp
+h:\youtube projects\consolerpg\consolerpg\puzzle.cpp(27): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+h:\youtube projects\consolerpg\consolerpg\inventory.h(27): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\main.cpp(5): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Item.cpp
+  Inventory.cpp
+h:\youtube projects\consolerpg\consolerpg\inventory.h(27): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\inventory.cpp(13): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\inventory.cpp(26): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\inventory.cpp(44): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\inventory.cpp(54): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\inventory.cpp(68): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\inventory.cpp(82): warning C4018: '<': signed/unsigned mismatch
+  Game.cpp
+h:\youtube projects\consolerpg\consolerpg\inventory.h(27): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\game.cpp(515): warning C4018: '>=': signed/unsigned mismatch
+  Event.cpp
+h:\youtube projects\consolerpg\consolerpg\inventory.h(27): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\event.cpp(53): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\event.cpp(55): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+h:\youtube projects\consolerpg\consolerpg\event.cpp(57): warning C4804: '>': unsafe use of type 'bool' in operation
+h:\youtube projects\consolerpg\consolerpg\event.cpp(116): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\event.cpp(247): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\event.cpp(338): warning C4018: '>=': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\event.cpp(354): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+h:\youtube projects\consolerpg\consolerpg\event.cpp(355): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+h:\youtube projects\consolerpg\consolerpg\event.cpp(479): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+h:\youtube projects\consolerpg\consolerpg\event.cpp(480): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Enemy.cpp
+h:\youtube projects\consolerpg\consolerpg\enemy.cpp(10): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Character.cpp
+h:\youtube projects\consolerpg\consolerpg\inventory.h(27): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\character.cpp(159): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\character.cpp(179): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\character.cpp(187): warning C4018: '<': signed/unsigned mismatch
+h:\youtube projects\consolerpg\consolerpg\character.cpp(279): warning C4018: '>=': signed/unsigned mismatch
+  Armor.cpp
+  Generating Code...
+  ConsoleRPG.vcxproj -> H:\YOUTUBE PROJECTS\ConsoleRPG\Debug\ConsoleRPG.exe
+  ConsoleRPG.vcxproj -> H:\YOUTUBE PROJECTS\ConsoleRPG\Debug\ConsoleRPG.pdb (Full PDB)
