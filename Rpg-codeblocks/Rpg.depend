@@ -1,0 +1,79 @@
+# depslib dependency file v1.0
+1503013518 source:c:\users\headturna\desktop\rpg\item.cpp
+	"Item.h"
+
+1543062969 c:\users\headturna\desktop\rpg\item.h
+	"STLINCLUDE.h"
+
+1543125234 c:\users\headturna\desktop\rpg\stlinclude.h
+	<stdlib.h>
+	<string>
+	<ctime>
+	<vector>
+	<sstream>
+	<fstream>
+	<iostream>
+	<iomanip>
+	<math.h>
+	<cmath>
+	"dArr.h"
+
+1543074738 c:\users\headturna\desktop\rpg\darr.h
+
+1503013518 source:c:\users\headturna\desktop\rpg\main.cpp
+	"Game.h"
+
+1503013518 c:\users\headturna\desktop\rpg\game.h
+	"STLINCLUDE.h"
+	"Event.h"
+
+1503013518 c:\users\headturna\desktop\rpg\event.h
+	"STLINCLUDE.h"
+	"Character.h"
+	"Enemy.h"
+	"Puzzle.h"
+
+1503013518 c:\users\headturna\desktop\rpg\character.h
+	"STLINCLUDE.h"
+	"Inventory.h"
+
+1503013518 c:\users\headturna\desktop\rpg\inventory.h
+	"STLINCLUDE.h"
+	"Weapon.h"
+	"Armor.h"
+
+1503013518 c:\users\headturna\desktop\rpg\weapon.h
+	"STLINCLUDE.h"
+	"Item.h"
+
+1543062943 c:\users\headturna\desktop\rpg\armor.h
+	"STLINCLUDE.h"
+	"Item.h"
+
+1543063161 c:\users\headturna\desktop\rpg\enemy.h
+	"STLINCLUDE.h"
+
+1503013518 c:\users\headturna\desktop\rpg\puzzle.h
+	"STLINCLUDE.h"
+
+1543074645 source:c:\users\headturna\desktop\rpg\enemy.cpp
+	"Enemy.h"
+
+1543074933 source:c:\users\headturna\desktop\rpg\armor.cpp
+	"Armor.h"
+
+1543124744 source:c:\users\headturna\desktop\rpg\puzzle.cpp
+	"Puzzle.h"
+
+1543124835 source:c:\users\headturna\desktop\rpg\inventory.cpp
+	"Inventory.h"
+
+1543124897 source:c:\users\headturna\desktop\rpg\weapon.cpp
+	"Weapon.h"
+
+1543125037 source:c:\users\headturna\desktop\rpg\event.cpp
+	"Event.h"
+
+1543125263 source:c:\users\headturna\desktop\rpg\character.cpp
+	"Character.h"
+
