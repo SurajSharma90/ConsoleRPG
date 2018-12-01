@@ -107,7 +107,7 @@ void Character::printStats() const
 	cout << "= HP: " << this->hp << " / " << this->hpMax << "\n";
 	cout << "= Stamina: " << this->stamina << " / " << this->staminaMax << "\n";
 	cout << "= Damage: " << this->damageMin << "( +" << this->weapon.getDamageMin() << ")" << " - "<< this->damageMax << "( +" << this->weapon.getDamageMax() << ")" << "\n";
-	cout << "= Defence: " << this->defence << "\n" << "( +" << std::to_string(this->getAddedDefence()) << ")";
+	cout << "= Defence: " << this->defence << "( +" << std::to_string(this->getAddedDefence()) << ")" << "\n";
 	cout << "= Accuracy: " << this->accuracy << "\n";
 	cout << "= Luck: " << this->luck << "\n";
 	cout << "\n";
