@@ -236,14 +236,18 @@ void Game::characterMenu()
 	do
 	{
 		system("CLS");
-		cout << "= CHARACTER MENU = " << "\n\n";
+		cout << gui::menu_title("CHARACTER MENU");
+
+		cout << gui::menu_divider();
 
 		characters[activeCharacter].printStats();
 
+		cout << gui::menu_divider();
+
 		cout << "= MENU =" << "\n";
-		cout << "0: Back" << "\n";
-		cout << "1: Print Inventory" << "\n";
-		cout << "2: Equip Item" << "\n";
+		cout << gui::menu_item(0, "Back");
+		cout << gui::menu_item(1, "Print Inventory");
+		cout << gui::menu_item(2, "Equip Item");
 		cout << "\n";
 		cout << "Choice: ";
 

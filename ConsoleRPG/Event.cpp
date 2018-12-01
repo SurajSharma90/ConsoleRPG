@@ -34,7 +34,7 @@ void Event::generateEvent(Character &character, dArr<Enemy>& enemies)
 		break;
 	case 3:
 		//Boss
-		
+		cout << "Boss encounter under construction..." << "\n";
 		break;
 
 	default:

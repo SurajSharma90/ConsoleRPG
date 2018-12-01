@@ -10,3 +10,4 @@
 #include<iomanip>
 
 #include"dArr.h"
+#include"gui_functions.h"
