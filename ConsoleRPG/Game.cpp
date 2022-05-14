@@ -69,7 +69,7 @@ void Game::mainMenu()
 		cout << "\n" << "Choice: ";
 		cin >> this->choice;
 
-		while (cin.fail() || this->choice > 9)
+		while (cin.fail() || this->choice > 8)
 		{
 			cout << "Faulty input!" << "\n";
 			cin.clear();
