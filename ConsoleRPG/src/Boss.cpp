@@ -2,10 +2,8 @@
 
 Boss::Boss()
 {
-
 }
 
 Boss::~Boss()
 {
-
 }
