@@ -386,7 +386,7 @@ void Game::loadCharacters()
 
   // Item
   int itemType = 0;
-  int defence = 0;
+  int defense = 0;
   int type = 0;
   int damageMin = 0;
   int damageMax = 0;
@@ -429,24 +429,24 @@ void Game::loadCharacters()
       Weapon weapon(damageMin, damageMax, name, level, buyValue, sellValue, rarity);
 
       // Armor head
-      str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defence >> type;
+      str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defense >> type;
 
-      Armor armor_head(type, defence, name, level, buyValue, sellValue, rarity);
+      Armor armor_head(type, defense, name, level, buyValue, sellValue, rarity);
 
       // Armor chest
-      str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defence >> type;
+      str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defense >> type;
 
-      Armor armor_chest(type, defence, name, level, buyValue, sellValue, rarity);
+      Armor armor_chest(type, defense, name, level, buyValue, sellValue, rarity);
 
       // Armor arms
-      str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defence >> type;
+      str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defense >> type;
 
-      Armor armor_arms(type, defence, name, level, buyValue, sellValue, rarity);
+      Armor armor_arms(type, defense, name, level, buyValue, sellValue, rarity);
 
       // Armor legs
-      str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defence >> type;
+      str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defense >> type;
 
-      Armor armor_legs(type, defence, name, level, buyValue, sellValue, rarity);
+      Armor armor_legs(type, defense, name, level, buyValue, sellValue, rarity);
 
       temp.setWeapon(weapon);
       temp.setArmorHead(armor_head);
@@ -472,15 +472,14 @@ void Game::loadCharacters()
 
       str.str(line);
 
-      while (str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defence >> type)
+      while (str >> itemType >> name >> level >> rarity >> buyValue >> sellValue >> defense >> type)
       {
-        temp.addItem(Armor(type, defence, name, level, buyValue, sellValue, rarity));
+        temp.addItem(Armor(type, defense, name, level, buyValue, sellValue, rarity));
       }
-
-      this->characters.push_back(Character(temp));
 
       cout << "Character " << temp.getName() << " loaded!\n";
 
+      characters.push_back(std::move(temp));
       str.clear();
     }
   }

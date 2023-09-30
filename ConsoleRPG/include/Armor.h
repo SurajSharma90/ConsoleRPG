@@ -16,25 +16,26 @@ class Armor : public Item
 private:
   int type;
   std::string typeStr;
-  int defence;
+  int defense;
 
 public:
+  // TODO: Delete defaut constructor as it is not used
   Armor();
   Armor(int level, int rarity);
-  Armor(int type, int defence, std::string name, int level, int buyValue, int sellValue, int rarity);
-  virtual ~Armor();
+  Armor(int type, int defense, std::string name, int level, int buyValue, int sellValue, int rarity);
+  ~Armor();
 
   // Pure virtual
-  virtual Armor* clone() const;
+  virtual std::shared_ptr<Item> clone() const override;
 
   // Functions
   std::string toString() const;
   std::string toStringSave() const;
 
   // Accessors
-  inline int getDefence() const
+  inline int getDefense() const
   {
-    return this->defence;
+    return this->defense;
   }
   inline int getType() const
   {
@@ -42,6 +43,6 @@ public:
   }
 
   // Static
-  static dArr<std::string> names;
+  static std::vector<std::string> names;
   static void initNames();
 };

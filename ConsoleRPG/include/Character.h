@@ -36,8 +36,9 @@ private:
   int staminaMax;
   int damageMin;
   int damageMax;
-  int defence;
+  int defense;
   int accuracy;
+  // TODO: Add luck to the system
   int luck;
 
   int statPoints;
@@ -46,7 +47,7 @@ public:
   Character();
   Character(string name, int distanceTravelled, int gold, int level, int exp, int strength, int vitality, int dexterity,
             int intelligence, int hp, int stamina, int statPoints);
-  virtual ~Character();
+  ~Character();
 
   // Functions
   void initialize(const std::string name);
@@ -122,14 +123,14 @@ public:
   {
     return rand() % (this->damageMax + this->weapon.getDamageMax()) + (this->damageMin + this->weapon.getDamageMin());
   }
-  inline const int& getDefence() const
+  inline const int& getDefense() const
   {
-    return this->defence;
+    return this->defense;
   }
-  inline const int getAddedDefence() const
+  inline const int getAddedDefense() const
   {
-    return this->armor_arms.getDefence() + this->armor_chest.getDefence() + this->armor_legs.getDefence() +
-           this->armor_head.getDefence();
+    return this->armor_arms.getDefense() + this->armor_chest.getDefense() + this->armor_legs.getDefense() +
+           this->armor_head.getDefense();
   }
   inline const int& getAccuracy() const
   {

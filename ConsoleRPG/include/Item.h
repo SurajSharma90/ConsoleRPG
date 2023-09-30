@@ -24,45 +24,21 @@ public:
   Item(int itemType, std::string name, int level, int buyValue, int sellValue, int rarity);
   virtual ~Item();
 
-  inline std::string debugPrint() const
-  {
-    return this->name;
-  }
-  virtual Item* clone() const = 0;
+  std::string debugPrint() const;
+  virtual std::shared_ptr<Item> clone() const = 0;
   virtual std::string toString() const = 0;
   virtual std::string toStringSave() const = 0;
 
   // Accessors
-  inline const std::string& getName() const
-  {
-    return this->name;
-  }
-  inline const int& getLevel() const
-  {
-    return this->level;
-  }
-  inline const int& getBuyValue() const
-  {
-    return this->buyValue;
-  }
-  inline const int& getSellValue() const
-  {
-    return this->sellValue;
-  }
-  inline const int& getRarity() const
-  {
-    return this->rarity;
-  }
-  inline const int& getItemType() const
-  {
-    return this->itemType;
-  }
+  const std::string& getName() const;
+  const int& getLevel() const;
+  const int& getBuyValue() const;
+  const int& getSellValue() const;
+  const int& getRarity() const;
+  const int& getItemType() const;
 
   // Modifiers
-  inline void setName(std::string name)
-  {
-    this->name = name;
-  }
+  void setName(std::string name);
 };
 
 enum rarity

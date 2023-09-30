@@ -11,7 +11,7 @@ private:
   int damageMin;
   int damageMax;
   float dropChance;
-  int defence;
+  int defense;
   int accuracy;
 
 public:
@@ -53,9 +53,9 @@ public:
   {
     return this->hpMax;
   }
-  inline int getDefence() const
+  inline int getDefense() const
   {
-    return this->defence;
+    return this->defense;
   }
   inline int getAccuracy() const
   {

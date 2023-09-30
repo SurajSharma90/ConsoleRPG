@@ -13,10 +13,10 @@ public:
   Weapon();
   Weapon(int level, int rarity);
   Weapon(int damageMin, int damageMax, std::string name, int level, int buyValue, int sellValue, int rarity);
-  virtual ~Weapon();
+  ~Weapon();
 
   // Pure virtual
-  virtual Weapon* clone() const;
+  virtual std::shared_ptr<Item> clone() const override;
 
   // Functions
   std::string toString() const;
@@ -35,6 +35,6 @@ public:
   // Modifiers
 
   // Static
-  static dArr<std::string> names;
+  static std::vector<std::string> names;
   static void initNames();
 };

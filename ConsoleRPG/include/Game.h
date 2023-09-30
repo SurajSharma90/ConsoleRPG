@@ -18,7 +18,7 @@ private:
   std::string fileName;
 
   // Enemies
-  dArr<Enemy> enemies;
+  std::vector<Enemy> enemies;
 
 public:
   Game();

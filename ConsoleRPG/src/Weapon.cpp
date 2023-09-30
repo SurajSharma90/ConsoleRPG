@@ -1,15 +1,15 @@
 #include "Weapon.h"
 
-dArr<std::string> Weapon::names;
+std::vector<std::string> Weapon::names;
 
 void Weapon::initNames()
 {
-  Weapon::names.push("Butter-Knife");
-  Weapon::names.push("Leaf-Cutter");
-  Weapon::names.push("Face-Shredder");
-  Weapon::names.push("Bro-Knife");
-  Weapon::names.push("Katana-Sword");
-  Weapon::names.push("Brutal-Murder");
+  Weapon::names.push_back("Butter-Knife");
+  Weapon::names.push_back("Leaf-Cutter");
+  Weapon::names.push_back("Face-Shredder");
+  Weapon::names.push_back("Bro-Knife");
+  Weapon::names.push_back("Katana-Sword");
+  Weapon::names.push_back("Brutal-Murder");
 }
 
 Weapon::Weapon() : Item()
@@ -43,9 +43,9 @@ Weapon::~Weapon()
 {
 }
 
-Weapon* Weapon::clone() const
+std::shared_ptr<Item> Weapon::clone() const
 {
-  return new Weapon(*this);
+  return std::static_pointer_cast<Item>(std::make_shared<Weapon>(*this));
 }
 
 std::string Weapon::toString() const

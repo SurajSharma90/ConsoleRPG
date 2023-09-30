@@ -13,7 +13,7 @@ Event::~Event()
 {
 }
 
-void Event::generateEvent(Character& character, dArr<Enemy>& enemies)
+void Event::generateEvent(Character& character, std::vector<Enemy>& enemies)
 {
   int i = rand() % Event::nrOfEvents;
 
@@ -42,13 +42,24 @@ void Event::generateEvent(Character& character, dArr<Enemy>& enemies)
   }
 }
 
+void Event::printShop(Inventory& inventory)
+{
+  std::string inv;
+  for (size_t i = 0; i < inventory.size(); i++)
+  {
+    inv +=
+        to_string(i) + ": " + inventory[i]->toString() + "\n - PRICE: " + to_string(inventory[i]->getBuyValue()) + "\n";
+  }
+
+  cout << inv << "\n";
+}
+
 // Different events
 void Event::shopEncouter(Character& character)
 {
   int choice = 0;
   bool shopping = true;
   Inventory merchantInv;
-  string inv;
 
   // Init merchant inv
   int nrOfItems = rand() % 20 + 10;
@@ -125,19 +136,10 @@ void Event::shopEncouter(Character& character)
 
         cout << " - Gold: " << character.getGold() << "\n\n";
 
-        inv.clear();
-
-        for (size_t i = 0; i < merchantInv.size(); i++)
-        {
-          inv += to_string(i) + ": " + merchantInv[i].toString() +
-                 "\n - PRICE: " + to_string(merchantInv[i].getBuyValue()) + "\n";
-        }
-
-        cout << inv << "\n";
+        printShop(merchantInv);
 
         cout << "Gold: " << character.getGold() << "\n";
         cout << "Choice of item (-1 to cancel): ";
-
         cin >> choice;
 
         while (cin.fail() || choice > merchantInv.size() || choice < -1)
@@ -162,12 +164,13 @@ void Event::shopEncouter(Character& character)
           cout << "Cancelled..."
                << "\n";
         }
-        else if (character.getGold() >= merchantInv[choice].getBuyValue())
+        else if (character.getGold() >= merchantInv[choice]->getBuyValue())
         {
-          character.payGold(merchantInv[choice].getBuyValue());
-          character.addItem(merchantInv[choice]);
+          character.payGold(merchantInv[choice]->getBuyValue());
+          character.addItem(*(merchantInv[choice]));
 
-          cout << "Bought item " << merchantInv[choice].getName() << " -" << merchantInv[choice].getBuyValue() << "\n";
+          cout << "Bought item " << merchantInv[choice]->getName() << " -" << merchantInv[choice]->getBuyValue()
+               << "\n";
 
           merchantInv.removeItem(choice);
         }
@@ -248,8 +251,9 @@ void Event::shopEncouter(Character& character)
        << "\n\n";
 }
 
-void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
+void Event::enemyEncouter(Character& character, std::vector<Enemy>& enemies)
 {
+  // Initialize battle
   bool playerTurn = false;
   int choice = 0;
 
@@ -261,17 +265,12 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
   else
     playerTurn = false;
 
-  // End conditions
-  bool escape = false;
-  bool playerDefeated = false;
-  bool enemiesDefeated = false;
-
   // Enemies
   int nrOfEnemies = rand() % 5 + 1;
 
   for (size_t i = 0; i < nrOfEnemies; i++)
   {
-    enemies.push(Enemy(character.getLevel() + rand() % 3));
+    enemies.push_back(Enemy(character.getLevel() + rand() % 3));
   }
 
   // Battle variables
@@ -284,9 +283,10 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
   int combatRollPlayer = 0;
   int combatRollEnemy = 0;
 
-  while (!escape && !playerDefeated && !enemiesDefeated)
+  // Battle loop
+  while (true)
   {
-    if (playerTurn && !playerDefeated)
+    if (playerTurn)
     {
       // Menu
       // system("clear");
@@ -349,7 +349,7 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
       switch (choice)
       {
         case 0:  // ESCAPE
-          escape = true;
+          return;
           break;
 
         case 1:  // ATTACK
@@ -363,7 +363,7 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
             cout << i << ": "
                  << "Level: " << enemies[i].getLevel() << " - "
                  << "HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() << " - "
-                 << "Defence: " << enemies[i].getDefence() << " - "
+                 << "Defense: " << enemies[i].getDefense() << " - "
                  << "Accuracy: " << enemies[i].getAccuracy() << " - "
                  << "Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
           }
@@ -390,8 +390,8 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
           cout << "\n";
 
           // Attack roll
-          combatTotal = enemies[choice].getDefence() + character.getAccuracy();
-          enemyTotal = enemies[choice].getDefence() / (double)combatTotal * 100;
+          combatTotal = enemies[choice].getDefense() + character.getAccuracy();
+          enemyTotal = enemies[choice].getDefense() / (double)combatTotal * 100;
           playerTotal = character.getAccuracy() / (double)combatTotal * 100;
           combatRollPlayer = rand() % playerTotal + 1;
           combatRollEnemy = rand() % enemyTotal + 1;
@@ -477,7 +477,7 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
                 }
               }
 
-              enemies.remove(choice);
+              enemies.erase(enemies.begin() + choice);
             }
           }
           else  // Miss
@@ -502,7 +502,7 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
       // End turn
       playerTurn = false;
     }
-    else if (!playerTurn && !playerDefeated && !escape && !enemiesDefeated)
+    else if (!playerTurn)
     {
       cout << "= ENEMY TURN ="
            << "\n";
@@ -523,9 +523,9 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
         cout << "Enemy: " << i << "\n\n";
 
         // Attack roll
-        combatTotal = enemies[i].getAccuracy() + (character.getDefence() + character.getAddedDefence());
+        combatTotal = enemies[i].getAccuracy() + (character.getDefense() + character.getAddedDefense());
         enemyTotal = enemies[i].getAccuracy() / (double)combatTotal * 100;
-        playerTotal = (character.getDefence() + character.getAddedDefence()) / (double)combatTotal * 100;
+        playerTotal = (character.getDefense() + character.getAddedDefense()) / (double)combatTotal * 100;
         combatRollPlayer = rand() % playerTotal + 1;
         combatRollEnemy = rand() % enemyTotal + 1;
 
@@ -551,7 +551,7 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
           {
             cout << "YOU ARE DEFEATED!"
                  << "\n\n";
-            playerDefeated = true;
+            return;
           }
         }
         else  // Miss
@@ -567,11 +567,11 @@ void Event::enemyEncouter(Character& character, dArr<Enemy>& enemies)
     // Conditions
     if (!character.isAlive())
     {
-      playerDefeated = true;
+      return;
     }
     else if (enemies.size() <= 0)
     {
-      enemiesDefeated = true;
+      return;
     }
   }
 }
@@ -739,7 +739,7 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //"
   //<< 					"HP: " << enemies[i].getHp() << "/" <<
   // enemies[i].getHpMax() << " - " <<
-  // "Defence: " << enemies[i].getDefence() << " - "
+  // "Defense: " << enemies[i].getDefense() << " - "
   //<< 					"Accuracy: " << enemies[i].getAccuracy()
   //<< " - " << "Damage: " << enemies[i].getDamageMin() << " - " <<
   // enemies[i].getDamageMax() <<
@@ -767,9 +767,9 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //			cout << "\n";
 
   //			//Attack roll
-  //			combatTotal = enemies[choice].getDefence() +
+  //			combatTotal = enemies[choice].getDefense() +
   // character.getAccuracy(); 			enemyTotal =
-  // enemies[choice].getDefence()
+  // enemies[choice].getDefense()
   // /
   //(double)combatTotal * 100; 			playerTotal =
   // character.getAccuracy()
@@ -915,12 +915,12 @@ void Event::bossEncouter(Character& character, Boss& boss)
 
   //			//Attack roll
   //			combatTotal = enemies[i].getAccuracy() +
-  //(character.getDefence()
-  //+ character.getAddedDefence()); 			enemyTotal =
+  //(character.getDefense()
+  //+ character.getAddedDefense()); 			enemyTotal =
   // enemies[i].getAccuracy() /
   //(double)combatTotal * 100; 			playerTotal =
-  //(character.getDefence()
-  //+ character.getAddedDefence()) / (double)combatTotal * 100;
+  //(character.getDefense()
+  //+ character.getAddedDefense()) / (double)combatTotal * 100;
   // combatRollPlayer = rand() % playerTotal + 1;
   // combatRollEnemy = rand() % enemyTotal + 1;
 

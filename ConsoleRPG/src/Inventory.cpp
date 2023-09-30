@@ -1,106 +1,87 @@
 #include "Inventory.h"
 
-Inventory::Inventory()
+Inventory::Inventory() : itemArr(nullptr)
 {
-  this->cap = 5;
-  this->nrOfItems = 0;
-  this->itemArr = new Item*[cap];
-  this->initialize();
 }
 
 Inventory::~Inventory()
 {
-  for (size_t i = 0; i < this->nrOfItems; i++)
-  {
-    delete this->itemArr[i];
-  }
-  delete[] this->itemArr;
 }
 
-Inventory::Inventory(const Inventory& obj)
+Inventory::Inventory(const Inventory& other)
 {
-  this->cap = obj.cap;
-  this->nrOfItems = obj.nrOfItems;
-  this->itemArr = new Item*[this->cap];
-
-  for (size_t i = 0; i < this->nrOfItems; i++)
+  if (other.itemArr)
   {
-    this->itemArr[i] = obj.itemArr[i]->clone();
+    // Deep copy the items in the vector
+    this->itemArr = std::make_unique<std::vector<std::shared_ptr<Item>>>();
+    for (const auto& item : *other.itemArr)
+    {
+      this->itemArr->push_back(item->clone());
+    }
   }
-
-  initialize(this->nrOfItems);
+  else
+  {
+    this->itemArr = nullptr;
+  }
 }
 
-Item& Inventory::operator[](const int index)
+Inventory::Inventory(Inventory&& other) noexcept : itemArr(std::move(other.itemArr))
 {
-  if (index < 0 || index >= this->nrOfItems)
+}
+
+Inventory& Inventory::operator=(Inventory&& other) noexcept
+{
+  if (this != &other)
+  {
+    this->itemArr = std::move(other.itemArr);
+  }
+  return *this;
+}
+
+std::shared_ptr<Item>& Inventory::operator[](const int index)
+{
+  if (!itemArr)
+  {
+    throw("Non Initialized Pointer");
+  }
+  if (index < 0 || index >= itemArr->size())
+  {
     throw("BAD INDEX!");
-
-  return *this->itemArr[index];
-}
-
-void Inventory::operator=(const Inventory& obj)
-{
-  for (size_t i = 0; i < this->nrOfItems; i++)
-  {
-    delete this->itemArr[i];
-  }
-  delete[] this->itemArr;
-
-  this->cap = obj.cap;
-  this->nrOfItems = obj.nrOfItems;
-  this->itemArr = new Item*[this->cap];
-
-  for (size_t i = 0; i < this->nrOfItems; i++)
-  {
-    this->itemArr[i] = obj.itemArr[i]->clone();
   }
 
-  initialize(this->nrOfItems);
-}
-
-void Inventory::expand()
-{
-  this->cap *= 2;
-
-  Item** tempArr = new Item*[this->cap];
-
-  for (size_t i = 0; i < this->nrOfItems; i++)
-  {
-    tempArr[i] = this->itemArr[i];
-  }
-
-  delete[] this->itemArr;
-
-  this->itemArr = tempArr;
-
-  this->initialize(this->nrOfItems);
-}
-
-void Inventory::initialize(const int from)
-{
-  for (size_t i = from; i < cap; i++)
-  {
-    this->itemArr[i] = nullptr;
-  }
+  return (*itemArr)[index];
 }
 
 void Inventory::addItem(const Item& item)
 {
-  if (this->nrOfItems >= this->cap)
+  if (!itemArr)
   {
-    expand();
+    itemArr = std::make_unique<std::vector<std::shared_ptr<Item>>>();
   }
-
-  this->itemArr[this->nrOfItems++] = item.clone();
+  itemArr->push_back(item.clone());
+  // TODO: Check where the removeItem and operator[] are being used, to avoid accessing the wrong memory
+  //  std::sort(itemArr->begin(), itemArr->end(),
+  //            std::bind(&Inventory::compareItems, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Inventory::removeItem(int index)
 {
-  if (index < 0 || index >= this->nrOfItems)
-    throw("OUT OF BOUNDS REMOVE ITEM INVENTORY");
+  if (!itemArr)
+  {
+    return;
+  }
+  if (index < 0 || index >= itemArr->size())
+  {
+    throw("BAD INDEX!");
+  }
+  itemArr->erase(itemArr->begin() + index);
+}
 
-  delete this->itemArr[index];
-  this->itemArr[index] = this->itemArr[this->nrOfItems - 1];
-  this->itemArr[--this->nrOfItems] = nullptr;
+bool Inventory::compareItems(const std::shared_ptr<Item>& a, const std::shared_ptr<Item>& b)
+{
+  if (a->getItemType() < b->getItemType())
+    return true;
+  else if (a->getItemType() == b->getItemType())
+    return a->getRarity() > b->getRarity();  // Assuming higher rarity is better
+  return false;
 }

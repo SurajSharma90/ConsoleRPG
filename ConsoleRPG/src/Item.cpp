@@ -33,3 +33,38 @@ Item::Item(int itemType, std::string name, int level, int buyValue, int sellValu
 Item::~Item()
 {
 }
+
+std::string Item::debugPrint() const
+{
+  return this->name;
+}
+
+const std::string& Item::getName() const
+{
+  return this->name;
+}
+const int& Item::getLevel() const
+{
+  return this->level;
+}
+const int& Item::getBuyValue() const
+{
+  return this->buyValue;
+}
+const int& Item::getSellValue() const
+{
+  return this->sellValue;
+}
+const int& Item::getRarity() const
+{
+  return this->rarity;
+}
+const int& Item::getItemType() const
+{
+  return this->itemType;
+}
+
+void Item::setName(std::string name)
+{
+  this->name = name;
+}
