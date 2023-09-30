@@ -7,16 +7,16 @@
 class Game
 {
 private:
-  int choice;
-  bool playing;
+  int choice_;
+  bool playing_;
 
   // Character related
-  int activeCharacter;
-  std::vector<Character> characters;
-  std::string fileName;
+  int active_character_;
+  std::vector<Character> characters_;
+  std::string fileName_;
 
   // Enemies
-  std::vector<Enemy> enemies;
+  std::vector<Enemy> enemies_;
 
 public:
   Game();
@@ -39,7 +39,7 @@ public:
   // Accessors
   inline bool getPlaying() const
   {
-    return this->playing;
+    return playing_;
   }
 
   // Modifiers

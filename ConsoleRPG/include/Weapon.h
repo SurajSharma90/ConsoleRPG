@@ -6,13 +6,12 @@
 class Weapon : public Item
 {
 private:
-  int damageMin;
-  int damageMax;
+  int damage_min_;
+  int damage_max_;
 
 public:
-  Weapon();
   Weapon(int level, int rarity);
-  Weapon(int damageMin, int damageMax, std::string name, int level, int buyValue, int sellValue, int rarity);
+  Weapon(int damage_min, int damage_max, std::string name, int level, int buy_value, int sell_value, int rarity);
   ~Weapon();
 
   // Pure virtual
@@ -25,11 +24,11 @@ public:
   // Accessors
   inline int getDamageMin() const
   {
-    return this->damageMin;
+    return damage_min_;
   }
   inline int getDamageMax() const
   {
-    return this->damageMax;
+    return damage_max_;
   }
 
   // Modifiers

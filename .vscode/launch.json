@@ -32,7 +32,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/ConsoleRPG/build/console_rpg",
       "args": [], // Any command-line arguments you want to pass
-      "stopAtEntry": false, // Set this to true if you want the debugger to stop at the main() function
+      "stopAtEntry": true, // Set this to true if you want the debugger to stop at the main() function
       "cwd": "${workspaceFolder}/ConsoleRPG/build",
       "environment": [],
       "externalConsole": false,

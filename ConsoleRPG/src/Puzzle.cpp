@@ -1,6 +1,6 @@
 #include "Puzzle.h"
 
-Puzzle::Puzzle(std::string fileName)
+Puzzle::Puzzle(std::string file_name)
 {
   // SAVE/LOAD FORMAT
   /*
@@ -10,8 +10,8 @@ Puzzle::Puzzle(std::string fileName)
   correctAns
   */
 
-  this->correctAnswer = 0;
-  std::ifstream inFile(fileName);
+  correct_answer_ = 0;
+  std::ifstream inFile(file_name);
 
   int nrOfAns = 0;
   std::string answer = "";
@@ -22,18 +22,18 @@ Puzzle::Puzzle(std::string fileName)
     throw std::runtime_error("Could not open puzzle!");
   }
 
-  std::getline(inFile, this->question);
+  std::getline(inFile, question_);
   inFile >> nrOfAns;
   inFile.ignore();
 
   for (size_t i = 0; i < nrOfAns; i++)
   {
     std::getline(inFile, answer);
-    this->answers.push_back(answer);
+    answers_.push_back(answer);
   }
 
   inFile >> correctAns;
-  this->correctAnswer = correctAns;
+  correct_answer_ = correctAns;
   inFile.ignore();
 
   inFile.close();
@@ -47,14 +47,14 @@ std::string Puzzle::getAsString()
 {
   std::string answers = "";
 
-  for (size_t i = 0; i < this->answers.size(); i++)
+  for (size_t i = 0; i < answers_.size(); i++)
   {
-    answers += std::to_string(i) + ": " + this->answers[i] + "\n";
+    answers += std::to_string(i) + ": " + answers_[i] + "\n";
   }
 
-  /*return this->question + "\n" + "\n"
+  /*return question_ + "\n" + "\n"
     + answers + "\n"
-    + std::to_string(this->correctAnswer) + "\n";*/
+    + std::to_string(correct_answer_) + "\n";*/
 
-  return this->question + "\n" + "\n" + answers + "\n";
+  return question_ + "\n" + "\n" + answers + "\n";
 }

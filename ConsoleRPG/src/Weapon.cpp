@@ -12,31 +12,25 @@ void Weapon::initNames()
   Weapon::names.push_back("Brutal-Murder");
 }
 
-Weapon::Weapon() : Item()
+Weapon::Weapon(int level, int rarity) : Item(ItemTypes::WEAPON, level, rarity)
 {
-  this->damageMax = 0;
-  this->damageMin = 0;
-}
-
-Weapon::Weapon(int level, int rarity) : Item(itemTypes::WEAPON, level, rarity)
-{
-  this->damageMax = rand() % level * (rarity + 1);
-  this->damageMax += (rarity + 1) * 5;
-  this->setName(Weapon::names[rand() % Weapon::names.size()]);
+  damage_max_ = rand() % level * (rarity + 1);
+  damage_max_ += (rarity + 1) * 5;
+  setName(Weapon::names[rand() % Weapon::names.size()]);
 
   if (rarity == 3)
-    this->damageMax += level * 5;
+    damage_max_ += level * 5;
   else if (rarity == 4)
-    this->damageMax += level * 10;
+    damage_max_ += level * 10;
 
-  this->damageMin = this->damageMax / 2;
+  damage_min_ = damage_max_ / 2;
 }
 
-Weapon::Weapon(int damageMin, int damageMax, std::string name, int level, int buyValue, int sellValue, int rarity)
-  : Item(itemTypes::WEAPON, name, level, buyValue, sellValue, rarity)
+Weapon::Weapon(int damage_min, int damage_max, std::string name, int level, int buy_value, int sell_value, int rarity)
+  : Item(ItemTypes::WEAPON, name, level, buy_value, sell_value, rarity)
 {
-  this->damageMin = damageMin;
-  this->damageMax = damageMax;
+  damage_min_ = damage_min;
+  damage_max_ = damage_max;
 }
 
 Weapon::~Weapon()
@@ -50,19 +44,18 @@ std::shared_ptr<Item> Weapon::clone() const
 
 std::string Weapon::toString() const
 {
-  std::string str = this->getName() + " | Lvl: " + std::to_string(this->getLevel()) +
-                    " | Rarity: " + std::to_string(this->getRarity()) +
-                    " | Damage: " + std::to_string(this->damageMin) + " - " + std::to_string(this->damageMax);
+  std::string str = getName() + " | Lvl: " + std::to_string(getLevel()) + " | Rarity: " + std::to_string(getRarity()) +
+                    " | Damage: " + std::to_string(damage_min_) + " - " + std::to_string(damage_max_);
 
   return str;
 }
 
 std::string Weapon::toStringSave() const
 {
-  std::string str = std::to_string(this->getItemType()) + " " + this->getName() + " " +
-                    std::to_string(this->getLevel()) + " " + std::to_string(this->getRarity()) + " " +
-                    std::to_string(this->getBuyValue()) + " " + std::to_string(this->getSellValue()) + " " +
-                    std::to_string(this->damageMin) + " " + std::to_string(this->damageMax) + " ";
+  std::string str = std::to_string(getItemType()) + " " + getName() + " " + std::to_string(getLevel()) + " " +
+                    std::to_string(getRarity()) + " " + std::to_string(getBuyValue()) + " " +
+                    std::to_string(getSellValue()) + " " + std::to_string(damage_min_) + " " +
+                    std::to_string(damage_max_) + " ";
 
   return str;
 }

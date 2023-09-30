@@ -2,7 +2,7 @@
 
 #include "STLINCLUDE.h"
 
-enum itemTypes
+enum ItemTypes
 {
   WEAPON = 0,
   ARMOR
@@ -11,17 +11,16 @@ enum itemTypes
 class Item
 {
 private:
-  int itemType;
-  std::string name;
-  int level;
-  int buyValue;
-  int sellValue;
-  int rarity;
+  int item_type_;
+  std::string name_;
+  int level_;
+  int buy_value_;
+  int sell_value_;
+  int rarity_;
 
 public:
-  Item();
-  Item(int itemType, int level, int rarity);
-  Item(int itemType, std::string name, int level, int buyValue, int sellValue, int rarity);
+  Item(int item_type, int level, int rarity);
+  Item(int item_type, std::string name, int level, int buy_value, int sell_value, int rarity);
   virtual ~Item();
 
   std::string debugPrint() const;

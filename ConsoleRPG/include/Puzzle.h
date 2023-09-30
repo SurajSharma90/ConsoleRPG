@@ -5,17 +5,17 @@
 class Puzzle
 {
 private:
-  std::string question;
-  std::vector<std::string> answers;
-  int correctAnswer;
+  std::string question_;
+  std::vector<std::string> answers_;
+  int correct_answer_;
 
 public:
-  Puzzle(std::string fileName);
+  Puzzle(std::string file_name);
   virtual ~Puzzle();
   std::string getAsString();
 
   inline const int& getCorrectAns() const
   {
-    return this->correctAnswer;
+    return correct_answer_;
   }
 };

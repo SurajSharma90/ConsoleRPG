@@ -1,33 +1,23 @@
 #include "Item.h"
 
-Item::Item()
+Item::Item(int item_type, int level, int rarity)
 {
-  this->itemType = -1;
-  this->name = "EMPTY";
-  this->level = 0;
-  this->buyValue = 0;
-  this->sellValue = 0;
-  this->rarity = -1;
+  name_ = "RANDOM";
+  level_ = rand() % (level + 2) + 1;
+  rarity_ = rarity;
+  buy_value_ = (level_ + rarity_) + level_ * rarity_ * 10;
+  sell_value_ = buy_value_ / 2;
+  item_type_ = item_type;
 }
 
-Item::Item(int itemType, int level, int rarity)
+Item::Item(int item_type, std::string name, int level, int buy_value, int sell_value, int rarity)
 {
-  this->name = "RANDOM";
-  this->level = rand() % (level + 2) + 1;
-  this->rarity = rarity;
-  this->buyValue = (this->level + this->rarity) + this->level * this->rarity * 10;
-  this->sellValue = this->buyValue / 2;
-  this->itemType = itemType;
-}
-
-Item::Item(int itemType, std::string name, int level, int buyValue, int sellValue, int rarity)
-{
-  this->itemType = itemType;
-  this->name = name;
-  this->level = level;
-  this->buyValue = buyValue;
-  this->sellValue = sellValue;
-  this->rarity = rarity;
+  item_type_ = item_type;
+  name_ = name;
+  level_ = level;
+  buy_value_ = buy_value;
+  sell_value_ = sell_value;
+  rarity_ = rarity;
 }
 
 Item::~Item()
@@ -36,35 +26,35 @@ Item::~Item()
 
 std::string Item::debugPrint() const
 {
-  return this->name;
+  return name_;
 }
 
 const std::string& Item::getName() const
 {
-  return this->name;
+  return name_;
 }
 const int& Item::getLevel() const
 {
-  return this->level;
+  return level_;
 }
 const int& Item::getBuyValue() const
 {
-  return this->buyValue;
+  return buy_value_;
 }
 const int& Item::getSellValue() const
 {
-  return this->sellValue;
+  return sell_value_;
 }
 const int& Item::getRarity() const
 {
-  return this->rarity;
+  return rarity_;
 }
 const int& Item::getItemType() const
 {
-  return this->itemType;
+  return item_type_;
 }
 
 void Item::setName(std::string name)
 {
-  this->name = name;
+  name_ = name;
 }

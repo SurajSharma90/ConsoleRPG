@@ -8,43 +8,43 @@
 class Character
 {
 private:
-  int distanceTravelled;
+  int distance_traveled_;
 
-  Inventory inventory;
-  Weapon weapon;
-  Armor armor_head;
-  Armor armor_chest;
-  Armor armor_arms;
-  Armor armor_legs;
-  int gold;
+  Inventory inventory_;
+  Weapon weapon_;
+  Armor armor_head_;
+  Armor armor_chest_;
+  Armor armor_arms_;
+  Armor armor_legs_;
+  int gold_;
 
-  std::string name;
-  int level;
-  int exp;
-  int expNext;
+  std::string name_;
+  int level_;
+  int exp_;
+  int expNext_;
 
-  int strength;
-  int vitality;
-  int dexterity;
-  int intelligence;
+  int strength_;
+  int vitality_;
+  int dexterity_;
+  int intelligence_;
 
-  int hp;
-  int hpMax;
-  int stamina;
-  int staminaMax;
-  int damageMin;
-  int damageMax;
-  int defense;
-  int accuracy;
+  int hp_;
+  int hp_max_;
+  int stamina_;
+  int staminaMax_;
+  int damage_min_;
+  int damage_max_;
+  int defense_;
+  int accuracy_;
   // TODO: Add luck to the system
-  int luck;
+  int luck_;
 
-  int statPoints;
+  int stat_points_;
 
 public:
   Character();
-  Character(std::string name, int distanceTravelled, int gold, int level, int exp, int strength, int vitality,
-            int dexterity, int intelligence, int hp, int stamina, int statPoints);
+  Character(std::string name, int distance_traveled, int gold, int level, int exp, int strength, int vitality,
+            int dexterity, int intelligence, int hp, int stamina, int stat_points);
   ~Character();
 
   // Functions
@@ -57,132 +57,41 @@ public:
   void updateStats();
   void addToStat(int stat, int value);
   void equipItem(unsigned index);
-  inline void resetHP()
-  {
-    this->hp = this->hpMax;
-  }
-  void addItem(const Item& item)
-  {
-    this->inventory.addItem(item);
-  }
+  void resetHP();
+  void addItem(const Item& item);
   void removeItem(const int index);
   const Item& getItem(const int index);
 
   // Accessors
-  inline const int& getDistTravel() const
-  {
-    return this->distanceTravelled;
-  }
-  inline const std::string& getName() const
-  {
-    return this->name;
-  }
-  inline const int& getLevel() const
-  {
-    return this->level;
-  }
-  inline const int& getExp() const
-  {
-    return this->exp;
-  }
-  inline const int& getExpNext() const
-  {
-    return this->expNext;
-  }
-  inline const int& getStatPoints() const
-  {
-    return this->statPoints;
-  }
-  inline const int& getHP() const
-  {
-    return this->hp;
-  }
-  inline const int& getHPMax() const
-  {
-    return this->hpMax;
-  }
-  inline const bool isAlive()
-  {
-    return this->hp > 0;
-  }
-  inline const int& getStamina() const
-  {
-    return this->stamina;
-  }
-  inline const int& getDamageMin() const
-  {
-    return this->damageMin;
-  }
-  inline const int& getDamageMax() const
-  {
-    return this->damageMax;
-  }
-  inline const int getDamage() const
-  {
-    return rand() % (this->damageMax + this->weapon.getDamageMax()) + (this->damageMin + this->weapon.getDamageMin());
-  }
-  inline const int& getDefense() const
-  {
-    return this->defense;
-  }
-  inline const int getAddedDefense() const
-  {
-    return this->armor_arms.getDefense() + this->armor_chest.getDefense() + this->armor_legs.getDefense() +
-           this->armor_head.getDefense();
-  }
-  inline const int& getAccuracy() const
-  {
-    return this->accuracy;
-  }
-  inline const int getGold() const
-  {
-    return this->gold;
-  }
-  inline const int getInventorySize() const
-  {
-    return this->inventory.size();
-  }
+  const int& getDistTravel() const;
+  const std::string& getName() const;
+  const int& getLevel() const;
+  const int& getExp() const;
+  const int& getExpNext() const;
+  const int& getStatPoints() const;
+  const int& getHP() const;
+  const int& getHPMax() const;
+  const bool isAlive();
+  const int& getStamina() const;
+  const int& getDamageMin() const;
+  const int& getDamageMax() const;
+  const int getDamage() const;
+  const int& getDefense() const;
+  const int getAddedDefense() const;
+  const int& getAccuracy() const;
+  const int getGold() const;
+  const int getInventorySize() const;
 
   // Modifier
-  inline void setDistTravelled(const int& distance)
-  {
-    this->distanceTravelled = distance;
-  }
-  inline void travel()
-  {
-    this->distanceTravelled++;
-  }
-  inline void gainExp(const int exp)
-  {
-    this->exp += exp;
-  }
-  inline void gainGold(const int gold)
-  {
-    this->gold += gold;
-  }
-  inline void payGold(const int gold)
-  {
-    this->gold -= gold;
-  }
+  void setDistTravelled(const int& distance);
+  void travel();
+  void gainExp(const int exp);
+  void gainGold(const int gold);
+  void payGold(const int gold);
   void takeDamage(const int damage);
-  inline void setWeapon(Weapon weapon)
-  {
-    this->weapon = weapon;
-  }
-  inline void setArmorHead(Armor armor_head)
-  {
-    this->armor_head = armor_head;
-  }
-  inline void setArmorChest(Armor armor_chest)
-  {
-    this->armor_chest = armor_chest;
-  }
-  inline void setArmorArms(Armor armor_arms)
-  {
-    this->armor_arms = armor_arms;
-  }
-  inline void setArmorLegs(Armor armor_legs)
-  {
-    this->armor_legs = armor_legs;
-  }
+  void setWeapon(Weapon weapon);
+  void setArmorHead(Armor armor_head);
+  void setArmorChest(Armor armor_chest);
+  void setArmorArms(Armor armor_arms);
+  void setArmorLegs(Armor armor_legs);
 };

@@ -8,7 +8,7 @@
 class Inventory
 {
 private:
-  std::unique_ptr<std::vector<std::shared_ptr<Item>>> itemArr;
+  std::unique_ptr<std::vector<std::shared_ptr<Item>>> item_vec_ptr_;
   bool compareItems(const std::shared_ptr<Item>& a, const std::shared_ptr<Item>& b);
 
 public:

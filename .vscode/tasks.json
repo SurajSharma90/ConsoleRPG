@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cmake and make",
+      "type": "shell",
+      "command": "cmake .. && make",
+      "options": {
+        "cwd": "${workspaceFolder}/ConsoleRPG/build"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
