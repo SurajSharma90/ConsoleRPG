@@ -2,7 +2,6 @@
 
 int Event::nrOfEvents = 4;
 
-using namespace std;
 ;
 
 Event::Event()
@@ -33,8 +32,8 @@ void Event::generateEvent(Character& character, std::vector<Enemy>& enemies)
       break;
     case 3:
       // Boss
-      cout << "Boss encounter under construction..."
-           << "\n";
+      std::cout << "Boss encounter under construction..."
+                << "\n";
       break;
 
     default:
@@ -47,11 +46,11 @@ void Event::printShop(Inventory& inventory)
   std::string inv;
   for (size_t i = 0; i < inventory.size(); i++)
   {
-    inv +=
-        to_string(i) + ": " + inventory[i]->toString() + "\n - PRICE: " + to_string(inventory[i]->getBuyValue()) + "\n";
+    inv += std::to_string(i) + ": " + inventory[i]->toString() +
+           "\n - PRICE: " + std::to_string(inventory[i]->getBuyValue()) + "\n";
   }
 
-  cout << inv << "\n";
+  std::cout << inv << "\n";
 }
 
 // Different events
@@ -79,48 +78,48 @@ void Event::shopEncouter(Character& character)
   {
     system("clear");
 
-    cout << "= SHOP MENU ="
-         << "\n\n";
+    std::cout << "= SHOP MENU ="
+              << "\n\n";
 
-    cout << "0: Leave"
-         << "\n";
-    cout << "1: Buy"
-         << "\n";
-    cout << "2: Sell"
-         << "\n";
-    cout << "\n";
+    std::cout << "0: Leave"
+              << "\n";
+    std::cout << "1: Buy"
+              << "\n";
+    std::cout << "2: Sell"
+              << "\n";
+    std::cout << "\n";
 
-    cout << "Choice: ";
+    std::cout << "Choice: ";
 
-    cin >> choice;
+    std::cin >> choice;
 
-    while (cin.fail() || choice > 3 || choice < 0)
+    while (std::cin.fail() || choice > 3 || choice < 0)
     {
       system("clear");
 
-      cout << "Faulty input!"
-           << "\n";
-      cin.clear();
-      cin.ignore(100, '\n');
+      std::cout << "Faulty input!"
+                << "\n";
+      std::cin.clear();
+      std::cin.ignore(100, '\n');
 
-      cout << "= SHOP MENU ="
-           << "\n\n";
+      std::cout << "= SHOP MENU ="
+                << "\n\n";
 
-      cout << "0: Leave"
-           << "\n";
-      cout << "1: Buy"
-           << "\n";
-      cout << "2: Sell"
-           << "\n";
+      std::cout << "0: Leave"
+                << "\n";
+      std::cout << "1: Buy"
+                << "\n";
+      std::cout << "2: Sell"
+                << "\n";
 
-      cout << "\n";
+      std::cout << "\n";
 
-      cout << "Choice: ";
-      cin >> choice;
+      std::cout << "Choice: ";
+      std::cin >> choice;
     }
 
-    cin.ignore(100, '\n');
-    cout << "\n";
+    std::cin.ignore(100, '\n');
+    std::cout << "\n";
 
     // Shop
     switch (choice)
@@ -131,109 +130,109 @@ void Event::shopEncouter(Character& character)
 
       case 1:  // Buy
 
-        cout << "= BUY MENU ="
-             << "\n\n";
+        std::cout << "= BUY MENU ="
+                  << "\n\n";
 
-        cout << " - Gold: " << character.getGold() << "\n\n";
+        std::cout << " - Gold: " << character.getGold() << "\n\n";
 
         printShop(merchantInv);
 
-        cout << "Gold: " << character.getGold() << "\n";
-        cout << "Choice of item (-1 to cancel): ";
-        cin >> choice;
+        std::cout << "Gold: " << character.getGold() << "\n";
+        std::cout << "Choice of item (-1 to cancel): ";
+        std::cin >> choice;
 
-        while (cin.fail() || choice > merchantInv.size() || choice < -1)
+        while (std::cin.fail() || choice > merchantInv.size() || choice < -1)
         {
           system("clear");
 
-          cout << "Faulty input!"
-               << "\n";
-          cin.clear();
-          cin.ignore(100, '\n');
+          std::cout << "Faulty input!"
+                    << "\n";
+          std::cin.clear();
+          std::cin.ignore(100, '\n');
 
-          cout << "Gold: " << character.getGold() << "\n";
-          cout << "Choice of item (-1 to cancel): ";
-          cin >> choice;
+          std::cout << "Gold: " << character.getGold() << "\n";
+          std::cout << "Choice of item (-1 to cancel): ";
+          std::cin >> choice;
         }
 
-        cin.ignore(100, '\n');
-        cout << "\n";
+        std::cin.ignore(100, '\n');
+        std::cout << "\n";
 
         if (choice == -1)
         {
-          cout << "Cancelled..."
-               << "\n";
+          std::cout << "Cancelled..."
+                    << "\n";
         }
         else if (character.getGold() >= merchantInv[choice]->getBuyValue())
         {
           character.payGold(merchantInv[choice]->getBuyValue());
           character.addItem(*(merchantInv[choice]));
 
-          cout << "Bought item " << merchantInv[choice]->getName() << " -" << merchantInv[choice]->getBuyValue()
-               << "\n";
+          std::cout << "Bought item " << merchantInv[choice]->getName() << " -" << merchantInv[choice]->getBuyValue()
+                    << "\n";
 
           merchantInv.removeItem(choice);
         }
         else
         {
-          cout << "Can't afford this item!"
-               << "\n";
+          std::cout << "Can't afford this item!"
+                    << "\n";
         }
 
         break;
 
       case 2:  // Sell
 
-        cout << character.getInvAsString(true) << "\n";
+        std::cout << character.getInvAsString(true) << "\n";
 
-        cout << "= SELL MENU ="
-             << "\n\n";
+        std::cout << "= SELL MENU ="
+                  << "\n\n";
 
-        cout << " - Gold: " << character.getGold() << "\n\n";
+        std::cout << " - Gold: " << character.getGold() << "\n\n";
 
         if (character.getInventorySize() > 0)
         {
-          cout << "Gold: " << character.getGold() << "\n";
-          cout << "Choice of item (-1 to cancel): ";
+          std::cout << "Gold: " << character.getGold() << "\n";
+          std::cout << "Choice of item (-1 to cancel): ";
 
-          cin >> choice;
+          std::cin >> choice;
 
-          while (cin.fail() || choice > character.getInventorySize() || choice < -1)
+          while (std::cin.fail() || choice > character.getInventorySize() || choice < -1)
           {
             system("clear");
 
-            cout << "Faulty input!"
-                 << "\n";
-            cin.clear();
-            cin.ignore(100, '\n');
+            std::cout << "Faulty input!"
+                      << "\n";
+            std::cin.clear();
+            std::cin.ignore(100, '\n');
 
-            cout << "Gold: " << character.getGold() << "\n";
-            cout << "Choice of item (-1 to cancel): ";
-            cin >> choice;
+            std::cout << "Gold: " << character.getGold() << "\n";
+            std::cout << "Choice of item (-1 to cancel): ";
+            std::cin >> choice;
           }
 
-          cin.ignore(100, '\n');
-          cout << "\n";
+          std::cin.ignore(100, '\n');
+          std::cout << "\n";
 
           if (choice == -1)
           {
-            cout << "Cancelled..."
-                 << "\n";
+            std::cout << "Cancelled..."
+                      << "\n";
           }
           else
           {
             character.gainGold(character.getItem(choice).getSellValue());
 
-            cout << "Item sold!"
-                 << "\n";
-            cout << "Gold earned: " << character.getItem(choice).getSellValue() << "\n\n";
+            std::cout << "Item sold!"
+                      << "\n";
+            std::cout << "Gold earned: " << character.getItem(choice).getSellValue() << "\n\n";
             character.removeItem(choice);
           }
         }
         else
         {
-          cout << "Inventory empty..."
-               << "\n";
+          std::cout << "Inventory empty..."
+                    << "\n";
         }
 
         break;
@@ -242,13 +241,13 @@ void Event::shopEncouter(Character& character)
         break;
     }
 
-    cout << "ENTER to continue..."
-         << "\n";
-    cin.get();
+    std::cout << "ENTER to continue..."
+              << "\n";
+    std::cin.get();
   }
 
-  cout << "You left the shop.."
-       << "\n\n";
+  std::cout << "You left the shop.."
+            << "\n\n";
 }
 
 void Event::enemyEncouter(Character& character, std::vector<Enemy>& enemies)
@@ -291,59 +290,59 @@ void Event::enemyEncouter(Character& character, std::vector<Enemy>& enemies)
       // Menu
       // system("clear");
 
-      cout << "= PLAYER TURN ="
-           << "\n\n";
-      cout << "Continue..."
-           << "\n\n";
-      cin.get();
+      std::cout << "= PLAYER TURN ="
+                << "\n\n";
+      std::cout << "Continue..."
+                << "\n\n";
+      std::cin.get();
       system("clear");
 
-      cout << "= BATTLE MENU ="
-           << "\n\n";
-      cout << "HP: " << character.getHP() << " / " << character.getHPMax() << "\n\n";
+      std::cout << "= BATTLE MENU ="
+                << "\n\n";
+      std::cout << "HP: " << character.getHP() << " / " << character.getHPMax() << "\n\n";
 
-      cout << "0: Escape"
-           << "\n";
-      cout << "1: Attack"
-           << "\n";
-      cout << "2: Defend"
-           << "\n";
-      cout << "3: Use Item"
-           << "\n";
-      cout << "\n";
+      std::cout << "0: Escape"
+                << "\n";
+      std::cout << "1: Attack"
+                << "\n";
+      std::cout << "2: Defend"
+                << "\n";
+      std::cout << "3: Use Item"
+                << "\n";
+      std::cout << "\n";
 
-      cout << "Choice: ";
+      std::cout << "Choice: ";
 
-      cin >> choice;
+      std::cin >> choice;
 
-      while (cin.fail() || choice > 3 || choice < 0)
+      while (std::cin.fail() || choice > 3 || choice < 0)
       {
         system("clear");
 
-        cout << "Faulty input!"
-             << "\n";
-        cin.clear();
-        cin.ignore(100, '\n');
+        std::cout << "Faulty input!"
+                  << "\n";
+        std::cin.clear();
+        std::cin.ignore(100, '\n');
 
-        cout << "= BATTLE MENU ="
-             << "\n\n";
+        std::cout << "= BATTLE MENU ="
+                  << "\n\n";
 
-        cout << "0: Escape"
-             << "\n";
-        cout << "1: Attack"
-             << "\n";
-        cout << "2: Defend"
-             << "\n";
-        cout << "3: Use Item"
-             << "\n";
-        cout << "\n";
+        std::cout << "0: Escape"
+                  << "\n";
+        std::cout << "1: Attack"
+                  << "\n";
+        std::cout << "2: Defend"
+                  << "\n";
+        std::cout << "3: Use Item"
+                  << "\n";
+        std::cout << "\n";
 
-        cout << "Choice: ";
-        cin >> choice;
+        std::cout << "Choice: ";
+        std::cin >> choice;
       }
 
-      cin.ignore(100, '\n');
-      cout << "\n";
+      std::cin.ignore(100, '\n');
+      std::cout << "\n";
 
       // Moves
       switch (choice)
@@ -355,74 +354,75 @@ void Event::enemyEncouter(Character& character, std::vector<Enemy>& enemies)
         case 1:  // ATTACK
 
           // Select enemy
-          cout << "Select enemy: "
-               << "\n\n";
+          std::cout << "Select enemy: "
+                    << "\n\n";
 
           for (size_t i = 0; i < enemies.size(); i++)
           {
-            cout << i << ": "
-                 << "Level: " << enemies[i].getLevel() << " - "
-                 << "HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() << " - "
-                 << "Defense: " << enemies[i].getDefense() << " - "
-                 << "Accuracy: " << enemies[i].getAccuracy() << " - "
-                 << "Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
+            std::cout << i << ": "
+                      << "Level: " << enemies[i].getLevel() << " - "
+                      << "HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() << " - "
+                      << "Defense: " << enemies[i].getDefense() << " - "
+                      << "Accuracy: " << enemies[i].getAccuracy() << " - "
+                      << "Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
           }
 
-          cout << "\n";
-          cout << "Choice: ";
+          std::cout << "\n";
+          std::cout << "Choice: ";
 
-          cin >> choice;
+          std::cin >> choice;
 
-          while (cin.fail() || choice >= enemies.size() || choice < 0)
+          while (std::cin.fail() || choice >= enemies.size() || choice < 0)
           {
-            cout << "Faulty input!"
-                 << "\n";
-            cin.clear();
-            cin.ignore(100, '\n');
+            std::cout << "Faulty input!"
+                      << "\n";
+            std::cin.clear();
+            std::cin.ignore(100, '\n');
 
-            cout << "Select enemy: "
-                 << "\n\n";
-            cout << "Choice: ";
-            cin >> choice;
+            std::cout << "Select enemy: "
+                      << "\n\n";
+            std::cout << "Choice: ";
+            std::cin >> choice;
           }
 
-          cin.ignore(100, '\n');
-          cout << "\n";
+          std::cin.ignore(100, '\n');
+          std::cout << "\n";
 
           // Attack roll
+          // TODO: Use <random> library
           combatTotal = enemies[choice].getDefense() + character.getAccuracy();
           enemyTotal = enemies[choice].getDefense() / (double)combatTotal * 100;
           playerTotal = character.getAccuracy() / (double)combatTotal * 100;
-          combatRollPlayer = rand() % playerTotal + 1;
-          combatRollEnemy = rand() % enemyTotal + 1;
+          combatRollPlayer = (playerTotal == 0) ? 0 : rand() % playerTotal;
+          combatRollEnemy = (enemyTotal == 0) ? 0 : rand() % enemyTotal;
 
-          cout << "Combat total: " << combatTotal << "\n";
-          cout << "Enemy percent: " << enemyTotal << "\n";
-          cout << "Player percent: " << playerTotal << "\n\n";
-          cout << "Player roll: " << combatRollPlayer << "\n";
-          cout << "Enemy roll: " << combatRollEnemy << "\n\n";
+          std::cout << "Combat total: " << combatTotal << "\n";
+          std::cout << "Enemy percent: " << enemyTotal << "\n";
+          std::cout << "Player percent: " << playerTotal << "\n\n";
+          std::cout << "Player roll: " << combatRollPlayer << "\n";
+          std::cout << "Enemy roll: " << combatRollEnemy << "\n\n";
 
           if (combatRollPlayer > combatRollEnemy)  // Hit
           {
-            cout << "HIT! "
-                 << "\n\n";
+            std::cout << "HIT! "
+                      << "\n\n";
 
             damage = character.getDamage();
             enemies[choice].takeDamage(damage);
 
-            cout << "Damage: " << damage << "!"
-                 << "\n\n";
+            std::cout << "Damage: " << damage << "!"
+                      << "\n\n";
 
             if (!enemies[choice].isAlive())
             {
-              cout << "ENEMY DEFEATED!"
-                   << "\n\n";
+              std::cout << "ENEMY DEFEATED!"
+                        << "\n\n";
               gainExp = enemies[choice].getExp();
               character.gainExp(gainExp);
               gainGold = rand() % enemies[choice].getLevel() * 10 + 1;
               character.gainGold(gainGold);
-              cout << "EXP GAINED: " << gainExp << "\n";
-              cout << "GOLD GAINED: " << gainGold << "\n\n";
+              std::cout << "EXP GAINED: " << gainExp << "\n";
+              std::cout << "GOLD GAINED: " << gainGold << "\n\n";
 
               // Item roll
               int roll = rand() % 100 + 1;
@@ -465,15 +465,15 @@ void Event::enemyEncouter(Character& character, std::vector<Enemy>& enemies)
                 {
                   Weapon tempW(character.getLevel(), rarity);
                   character.addItem(tempW);
-                  cout << "WEAPON DROP!"
-                       << "\n";
+                  std::cout << "WEAPON DROP!"
+                            << "\n";
                 }
                 else
                 {
                   Armor tempA(character.getLevel(), rarity);
                   character.addItem(tempA);
-                  cout << "ARMOR DROP!"
-                       << "\n";
+                  std::cout << "ARMOR DROP!"
+                            << "\n";
                 }
               }
 
@@ -482,7 +482,7 @@ void Event::enemyEncouter(Character& character, std::vector<Enemy>& enemies)
           }
           else  // Miss
           {
-            cout << "MISSED! \n\n";
+            std::cout << "MISSED! \n\n";
           }
 
           break;
@@ -504,59 +504,59 @@ void Event::enemyEncouter(Character& character, std::vector<Enemy>& enemies)
     }
     else if (!playerTurn)
     {
-      cout << "= ENEMY TURN ="
-           << "\n";
+      std::cout << "= ENEMY TURN ="
+                << "\n";
 
-      cout << "Continue..."
-           << "\n\n";
-      cin.get();
+      std::cout << "Continue..."
+                << "\n\n";
+      std::cin.get();
       system("clear");
 
       // Enemy attack
       for (size_t i = 0; i < enemies.size(); i++)
       {
-        cout << "Continue..."
-             << "\n\n";
-        cin.get();
+        std::cout << "Continue..."
+                  << "\n\n";
+        std::cin.get();
         system("clear");
 
-        cout << "Enemy: " << i << "\n\n";
+        std::cout << "Enemy: " << i << "\n\n";
 
         // Attack roll
         combatTotal = enemies[i].getAccuracy() + (character.getDefense() + character.getAddedDefense());
         enemyTotal = enemies[i].getAccuracy() / (double)combatTotal * 100;
         playerTotal = (character.getDefense() + character.getAddedDefense()) / (double)combatTotal * 100;
-        combatRollPlayer = rand() % playerTotal + 1;
-        combatRollEnemy = rand() % enemyTotal + 1;
+        combatRollPlayer = (playerTotal == 0) ? 0 : rand() % playerTotal;
+        combatRollEnemy = (enemyTotal == 0) ? 0 : rand() % enemyTotal;
 
-        cout << "Combat total: " << combatTotal << "\n";
-        cout << "Enemy percent: " << enemyTotal << "\n";
-        cout << "Player percent: " << playerTotal << "\n\n";
-        cout << "Player roll: " << combatRollPlayer << "\n";
-        cout << "Enemy roll: " << combatRollEnemy << "\n\n";
+        std::cout << "Combat total: " << combatTotal << "\n";
+        std::cout << "Enemy percent: " << enemyTotal << "\n";
+        std::cout << "Player percent: " << playerTotal << "\n\n";
+        std::cout << "Player roll: " << combatRollPlayer << "\n";
+        std::cout << "Enemy roll: " << combatRollEnemy << "\n\n";
 
         if (combatRollPlayer < combatRollEnemy)  // Hit
         {
-          cout << "HIT! "
-               << "\n\n";
+          std::cout << "HIT! "
+                    << "\n\n";
 
           damage = enemies[i].getDamage();
           character.takeDamage(damage);
 
-          cout << "Damage: " << damage << "!"
-               << "\n";
-          cout << "HP: " << character.getHP() << " / " << character.getHPMax() << "\n\n";
+          std::cout << "Damage: " << damage << "!"
+                    << "\n";
+          std::cout << "HP: " << character.getHP() << " / " << character.getHPMax() << "\n\n";
 
           if (!character.isAlive())
           {
-            cout << "YOU ARE DEFEATED!"
-                 << "\n\n";
+            std::cout << "YOU ARE DEFEATED!"
+                      << "\n\n";
             return;
           }
         }
         else  // Miss
         {
-          cout << "MISSED! \n\n";
+          std::cout << "MISSED! \n\n";
         }
       }
 
@@ -585,7 +585,7 @@ void Event::puzzleEncouter(Character& character)
   int gainGold = (chances * character.getLevel() * (rand() % 10 + 1));
   //H:\ConsoleRPG\ConsoleRPG\
 
-  Puzzle puzzle("Puzzles/1.txt");
+  Puzzle puzzle("../Puzzles/1.txt");
 
   while (!completed && chances > 0)
   {
@@ -593,22 +593,22 @@ void Event::puzzleEncouter(Character& character)
     chances--;
     std::cout << puzzle.getAsString() << "\n";
 
-    cout << "\nYour ANSWER: ";
-    cin >> userAns;
+    std::cout << "\nYour ANSWER: ";
+    std::cin >> userAns;
 
-    while (cin.fail())
+    while (std::cin.fail())
     {
-      cout << "Faulty input!"
-           << "\n";
-      cin.clear();
-      cin.ignore(100, '\n');
+      std::cout << "Faulty input!"
+                << "\n";
+      std::cin.clear();
+      std::cin.ignore(100, '\n');
 
-      cout << "\nYour ANSWER: ";
-      cin >> userAns;
+      std::cout << "\nYour ANSWER: ";
+      std::cin >> userAns;
     }
 
-    cin.ignore(100, '\n');
-    cout << "\n";
+    std::cin.ignore(100, '\n');
+    std::cout << "\n";
 
     if (puzzle.getCorrectAns() == userAns)
     {
@@ -676,48 +676,48 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //		//Menu
   //		//system("clear");
 
-  //		cout << "= PLAYER TURN =" << "\n\n";
-  //		cout << "Continue..." << "\n\n";
-  //		cin.get();
+  //		std::cout << "= PLAYER TURN =" << "\n\n";
+  //		std::cout << "Continue..." << "\n\n";
+  //		std::cin.get();
   //		system("clear");
 
-  //		cout << "= BATTLE MENU =" << "\n\n";
-  //		cout << "HP: " << character.getHP() << " / " <<
+  //		std::cout << "= BATTLE MENU =" << "\n\n";
+  //		std::cout << "HP: " << character.getHP() << " / " <<
   // character.getHPMax()
   //<< "\n\n";
 
-  //		cout << "0: Escape" << "\n";
-  //		cout << "1: Attack" << "\n";
-  //		cout << "2: Defend" << "\n";
-  //		cout << "3: Use Item" << "\n";
-  //		cout << "\n";
+  //		std::cout << "0: Escape" << "\n";
+  //		std::cout << "1: Attack" << "\n";
+  //		std::cout << "2: Defend" << "\n";
+  //		std::cout << "3: Use Item" << "\n";
+  //		std::cout << "\n";
 
-  //		cout << "Choice: ";
+  //		std::cout << "Choice: ";
 
-  //		cin >> choice;
+  //		std::cin >> choice;
 
-  //		while (cin.fail() || choice > 3 || choice < 0)
+  //		while (std::cin.fail() || choice > 3 || choice < 0)
   //		{
   //			system("clear");
 
-  //			cout << "Faulty input!" << "\n";
-  //			cin.clear();
-  //			cin.ignore(100, '\n');
+  //			std::cout << "Faulty input!" << "\n";
+  //			std::cin.clear();
+  //			std::cin.ignore(100, '\n');
 
-  //			cout << "= BATTLE MENU =" << "\n\n";
+  //			std::cout << "= BATTLE MENU =" << "\n\n";
 
-  //			cout << "0: Escape" << "\n";
-  //			cout << "1: Attack" << "\n";
-  //			cout << "2: Defend" << "\n";
-  //			cout << "3: Use Item" << "\n";
-  //			cout << "\n";
+  //			std::cout << "0: Escape" << "\n";
+  //			std::cout << "1: Attack" << "\n";
+  //			std::cout << "2: Defend" << "\n";
+  //			std::cout << "3: Use Item" << "\n";
+  //			std::cout << "\n";
 
-  //			cout << "Choice: ";
-  //			cin >> choice;
+  //			std::cout << "Choice: ";
+  //			std::cin >> choice;
   //		}
 
-  //		cin.ignore(100, '\n');
-  //		cout << "\n";
+  //		std::cin.ignore(100, '\n');
+  //		std::cout << "\n";
 
   //		//Moves
   //		switch (choice)
@@ -729,11 +729,11 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //		case 1: //ATTACK
 
   //				//Select enemy
-  //			cout << "Select enemy: " << "\n\n";
+  //			std::cout << "Select enemy: " << "\n\n";
 
   //			for (size_t i = 0; i < enemies.size(); i++)
   //			{
-  //				cout << i << ": "
+  //				std::cout << i << ": "
   //					<< "Level: " << enemies[i].getLevel() <<
   //" -
   //"
@@ -746,25 +746,25 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //					"\n";
   //			}
 
-  //			cout << "\n";
-  //			cout << "Choice: ";
+  //			std::cout << "\n";
+  //			std::cout << "Choice: ";
 
-  //			cin >> choice;
+  //			std::cin >> choice;
 
-  //			while (cin.fail() || choice >= enemies.size() || choice
+  //			while (std::cin.fail() || choice >= enemies.size() || choice
   //< 0)
   //			{
-  //				cout << "Faulty input!" << "\n";
-  //				cin.clear();
-  //				cin.ignore(100, '\n');
+  //				std::cout << "Faulty input!" << "\n";
+  //				std::cin.clear();
+  //				std::cin.ignore(100, '\n');
 
-  //				cout << "Select enemy: " << "\n\n";
-  //				cout << "Choice: ";
-  //				cin >> choice;
+  //				std::cout << "Select enemy: " << "\n\n";
+  //				std::cout << "Choice: ";
+  //				std::cin >> choice;
   //			}
 
-  //			cin.ignore(100, '\n');
-  //			cout << "\n";
+  //			std::cin.ignore(100, '\n');
+  //			std::cout << "\n";
 
   //			//Attack roll
   //			combatTotal = enemies[choice].getDefense() +
@@ -778,32 +778,32 @@ void Event::bossEncouter(Character& character, Boss& boss)
   // playerTotal + 1; 			combatRollEnemy = rand() % enemyTotal +
   // 1;
 
-  //			cout << "Combat total: " << combatTotal << "\n";
-  //			cout << "Enemy percent: " << enemyTotal << "\n";
-  //			cout << "Player percent: " << playerTotal << "\n\n";
-  //			cout << "Player roll: " << combatRollPlayer << "\n";
-  //			cout << "Enemy roll: " << combatRollEnemy << "\n\n";
+  //			std::cout << "Combat total: " << combatTotal << "\n";
+  //			std::cout << "Enemy percent: " << enemyTotal << "\n";
+  //			std::cout << "Player percent: " << playerTotal << "\n\n";
+  //			std::cout << "Player roll: " << combatRollPlayer << "\n";
+  //			std::cout << "Enemy roll: " << combatRollEnemy << "\n\n";
 
   //			if (combatRollPlayer > combatRollEnemy) //Hit
   //			{
-  //				cout << "HIT! " << "\n\n";
+  //				std::cout << "HIT! " << "\n\n";
 
   //				damage = character.getDamage();
   //				enemies[choice].takeDamage(damage);
 
-  //				cout << "Damage: " << damage << "!" << "\n\n";
+  //				std::cout << "Damage: " << damage << "!" << "\n\n";
 
   //				if (!enemies[choice].isAlive())
   //				{
-  //					cout << "ENEMY DEFEATED!" << "\n\n";
+  //					std::cout << "ENEMY DEFEATED!" << "\n\n";
   //					gainExp = enemies[choice].getExp();
   //					character.gainExp(gainExp);
   //					gainGold = rand() %
   // enemies[choice].getLevel() * 10
   //+
   // 1; 					character.gainGold(gainGold);
-  // cout << "EXP GAINED: " << gainExp << "\n";
-  // cout << "GOLD GAINED: " << gainGold <<
+  // std::cout << "EXP GAINED: " << gainExp << "\n";
+  // std::cout << "GOLD GAINED: " << gainGold <<
   //"\n\n";
 
   //					//Item roll
@@ -858,7 +858,7 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //							Weapon
   // tempW(character.getLevel(), rarity);
   // character.addItem(tempW);
-  // cout << "WEAPON DROP!" <<
+  // std::cout << "WEAPON DROP!" <<
   // "\n";
   //						}
   //						else
@@ -866,7 +866,7 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //							Armor
   // tempA(character.getLevel(), rarity);
   // character.addItem(tempA);
-  // cout << "ARMOR DROP!" <<
+  // std::cout << "ARMOR DROP!" <<
   // "\n";
   //						}
   //					}
@@ -876,7 +876,7 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //			}
   //			else //Miss
   //			{
-  //				cout << "MISSED! \n\n";
+  //				std::cout << "MISSED! \n\n";
   //			}
 
   //			break;
@@ -898,20 +898,20 @@ void Event::bossEncouter(Character& character, Boss& boss)
   //	}
   //	else if (!playerTurn && !playerDefeated && !escape && !enemiesDefeated)
   //	{
-  //		cout << "= ENEMY TURN =" << "\n";
+  //		std::cout << "= ENEMY TURN =" << "\n";
 
-  //		cout << "Continue..." << "\n\n";
-  //		cin.get();
+  //		std::cout << "Continue..." << "\n\n";
+  //		std::cin.get();
   //		system("clear");
 
   //		//Enemy attack
   //		for (size_t i = 0; i < enemies.size(); i++)
   //		{
-  //			cout << "Continue..." << "\n\n";
-  //			cin.get();
+  //			std::cout << "Continue..." << "\n\n";
+  //			std::cin.get();
   //			system("clear");
 
-  //			cout << "Enemy: " << i << "\n\n";
+  //			std::cout << "Enemy: " << i << "\n\n";
 
   //			//Attack roll
   //			combatTotal = enemies[i].getAccuracy() +
@@ -924,32 +924,32 @@ void Event::bossEncouter(Character& character, Boss& boss)
   // combatRollPlayer = rand() % playerTotal + 1;
   // combatRollEnemy = rand() % enemyTotal + 1;
 
-  //			cout << "Combat total: " << combatTotal << "\n";
-  //			cout << "Enemy percent: " << enemyTotal << "\n";
-  //			cout << "Player percent: " << playerTotal << "\n\n";
-  //			cout << "Player roll: " << combatRollPlayer << "\n";
-  //			cout << "Enemy roll: " << combatRollEnemy << "\n\n";
+  //			std::cout << "Combat total: " << combatTotal << "\n";
+  //			std::cout << "Enemy percent: " << enemyTotal << "\n";
+  //			std::cout << "Player percent: " << playerTotal << "\n\n";
+  //			std::cout << "Player roll: " << combatRollPlayer << "\n";
+  //			std::cout << "Enemy roll: " << combatRollEnemy << "\n\n";
 
   //			if (combatRollPlayer < combatRollEnemy) //Hit
   //			{
-  //				cout << "HIT! " << "\n\n";
+  //				std::cout << "HIT! " << "\n\n";
 
   //				damage = enemies[i].getDamage();
   //				character.takeDamage(damage);
 
-  //				cout << "Damage: " << damage << "!" << "\n";
-  //				cout << "HP: " << character.getHP() << " / " <<
+  //				std::cout << "Damage: " << damage << "!" << "\n";
+  //				std::cout << "HP: " << character.getHP() << " / " <<
   // character.getHPMax() << "\n\n";
 
   //				if (!character.isAlive())
   //				{
-  //					cout << "YOU ARE DEFEATED!" << "\n\n";
+  //					std::cout << "YOU ARE DEFEATED!" << "\n\n";
   //					playerDefeated = true;
   //				}
   //			}
   //			else //Miss
   //			{
-  //				cout << "MISSED! \n\n";
+  //				std::cout << "MISSED! \n\n";
   //			}
   //		}
 

@@ -4,6 +4,7 @@
 #include "Weapon.h"
 #include "Armor.h"
 #include <functional>  // For std::bind in sort method
+
 class Inventory
 {
 private:
@@ -17,18 +18,9 @@ public:
   Inventory(Inventory&& other) noexcept;
   Inventory& operator=(Inventory&& other) noexcept;
 
-  inline int size() const
-  {
-    return itemArr->size();
-  };
+  int size() const;
   std::shared_ptr<Item>& operator[](const int index);
   void addItem(const Item& item);
   void removeItem(int index);
-  inline void debugPrint() const
-  {
-    for (const auto& vec : (*itemArr))
-    {
-      std::cout << vec->debugPrint() << std::endl;
-    }
-  }
+  void debugPrint() const;
 };

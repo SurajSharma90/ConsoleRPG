@@ -20,7 +20,16 @@ Armor::Armor() : Item()
 
 Armor::Armor(int level, int rarity) : Item(itemTypes::ARMOR, level, rarity)
 {
-  this->defense = rand() % (level * (rarity + 1));
+  int denominator = level * (rarity + 1);
+  if (denominator == 0)
+  {
+    // Handle the zero case here, perhaps set to a default value or log an error.
+    this->defense = 0;  // or some default value
+  }
+  else
+  {
+    this->defense = rand() % denominator;
+  }
   this->defense += (rarity + 1) * 5;
   this->type = rand() % 4;
 

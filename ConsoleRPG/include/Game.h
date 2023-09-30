@@ -4,8 +4,6 @@
 
 #include "Event.h"
 
-using namespace std;
-
 class Game
 {
 private:

@@ -11,31 +11,30 @@ Puzzle::Puzzle(std::string fileName)
   */
 
   this->correctAnswer = 0;
-
   std::ifstream inFile(fileName);
 
   int nrOfAns = 0;
   std::string answer = "";
   int correctAns = 0;
 
-  if (inFile.is_open())
+  if (!inFile.is_open())
   {
-    std::getline(inFile, this->question);
-    inFile >> nrOfAns;
-    inFile.ignore();
-
-    for (size_t i = 0; i < nrOfAns; i++)
-    {
-      std::getline(inFile, answer);
-      this->answers.push_back(answer);
-    }
-
-    inFile >> correctAns;
-    this->correctAnswer = correctAns;
-    inFile.ignore();
+    throw std::runtime_error("Could not open puzzle!");
   }
-  else
-    throw("Could not open puzzle!");
+
+  std::getline(inFile, this->question);
+  inFile >> nrOfAns;
+  inFile.ignore();
+
+  for (size_t i = 0; i < nrOfAns; i++)
+  {
+    std::getline(inFile, answer);
+    this->answers.push_back(answer);
+  }
+
+  inFile >> correctAns;
+  this->correctAnswer = correctAns;
+  inFile.ignore();
 
   inFile.close();
 }

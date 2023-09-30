@@ -29,7 +29,7 @@ Character::Character()
   this->statPoints = 0;
 }
 
-Character::Character(string name, int distanceTravelled, int gold, int level, int exp, int strength, int vitality,
+Character::Character(std::string name, int distanceTravelled, int gold, int level, int exp, int strength, int vitality,
                      int dexterity, int intelligence, int hp, int stamina, int statPoints)
 {
   this->distanceTravelled = distanceTravelled;
@@ -66,7 +66,7 @@ Character::~Character()
 }
 
 // Functions
-void Character::initialize(const string name)
+void Character::initialize(const std::string name)
 {
   this->distanceTravelled = 0;
 
@@ -88,77 +88,78 @@ void Character::initialize(const string name)
 
 void Character::printStats() const
 {
-  cout << "= Character Sheet ="
-       << "\n";
-  cout << "= Name: " << this->name << "\n";
-  cout << "= Level: " << this->level << "\n";
-  cout << "= Exp: " << this->exp << "\n";
-  cout << "= Exp to next level: " << this->expNext << "\n";
-  cout << "= Statpoints: " << this->statPoints << "\n";
-  cout << "\n";
-  cout << "= Strenght: " << this->strength << "\n";
-  cout << "= Vitality: " << this->vitality << "\n";
-  cout << "= Dexterity: " << this->dexterity << "\n";
-  cout << "= Intelligence: " << this->intelligence << "\n";
-  cout << "\n";
-  cout << "= HP: " << this->hp << " / " << this->hpMax << "\n";
-  cout << "= Stamina: " << this->stamina << " / " << this->staminaMax << "\n";
-  cout << "= Damage: " << this->damageMin << "( +" << this->weapon.getDamageMin() << ")"
-       << " - " << this->damageMax << "( +" << this->weapon.getDamageMax() << ")"
-       << "\n";
-  cout << "= Defense: " << this->defense << "( +" << std::to_string(this->getAddedDefense()) << ")"
-       << "\n";
-  cout << "= Accuracy: " << this->accuracy << "\n";
-  cout << "= Luck: " << this->luck << "\n";
-  cout << "\n";
-  cout << "= Distance Travelled: " << this->distanceTravelled << "\n";
-  cout << "= Gold: " << this->gold << "\n";
-  cout << "\n";
-  cout << "= Weapon: " << this->weapon.getName() << " Lvl: " << this->weapon.getLevel()
-       << " Dam: " << this->weapon.getDamageMin() << " - " << this->weapon.getDamageMax() << "\n";
-  cout << "= Armor Head: " << this->armor_head.getName() << " Lvl: " << this->armor_head.getLevel()
-       << " Def: " << this->armor_head.getDefense() << "\n";
-  cout << "= Armor Chest: " << this->armor_chest.getName() << " Lvl: " << this->armor_chest.getLevel()
-       << " Def: " << this->armor_chest.getDefense() << "\n";
-  cout << "= Armor Arms: " << this->armor_arms.getName() << " Lvl: " << this->armor_arms.getLevel()
-       << " Def: " << this->armor_arms.getDefense() << "\n";
-  cout << "= Armor Legs: " << this->armor_legs.getName() << " Lvl: " << this->armor_legs.getLevel()
-       << " Def: " << this->armor_legs.getDefense() << "\n"
-       << "\n";
+  std::cout << "= Character Sheet ="
+            << "\n";
+  std::cout << "= Name: " << this->name << "\n";
+  std::cout << "= Level: " << this->level << "\n";
+  std::cout << "= Exp: " << this->exp << "\n";
+  std::cout << "= Exp to next level: " << this->expNext << "\n";
+  std::cout << "= Statpoints: " << this->statPoints << "\n";
+  std::cout << "\n";
+  std::cout << "= Strenght: " << this->strength << "\n";
+  std::cout << "= Vitality: " << this->vitality << "\n";
+  std::cout << "= Dexterity: " << this->dexterity << "\n";
+  std::cout << "= Intelligence: " << this->intelligence << "\n";
+  std::cout << "\n";
+  std::cout << "= HP: " << this->hp << " / " << this->hpMax << "\n";
+  std::cout << "= Stamina: " << this->stamina << " / " << this->staminaMax << "\n";
+  std::cout << "= Damage: " << this->damageMin << "( +" << this->weapon.getDamageMin() << ")"
+            << " - " << this->damageMax << "( +" << this->weapon.getDamageMax() << ")"
+            << "\n";
+  std::cout << "= Defense: " << this->defense << "( +" << std::to_string(this->getAddedDefense()) << ")"
+            << "\n";
+  std::cout << "= Accuracy: " << this->accuracy << "\n";
+  std::cout << "= Luck: " << this->luck << "\n";
+  std::cout << "\n";
+  std::cout << "= Distance Travelled: " << this->distanceTravelled << "\n";
+  std::cout << "= Gold: " << this->gold << "\n";
+  std::cout << "\n";
+  std::cout << "= Weapon: " << this->weapon.getName() << " Lvl: " << this->weapon.getLevel()
+            << " Dam: " << this->weapon.getDamageMin() << " - " << this->weapon.getDamageMax() << "\n";
+  std::cout << "= Armor Head: " << this->armor_head.getName() << " Lvl: " << this->armor_head.getLevel()
+            << " Def: " << this->armor_head.getDefense() << "\n";
+  std::cout << "= Armor Chest: " << this->armor_chest.getName() << " Lvl: " << this->armor_chest.getLevel()
+            << " Def: " << this->armor_chest.getDefense() << "\n";
+  std::cout << "= Armor Arms: " << this->armor_arms.getName() << " Lvl: " << this->armor_arms.getLevel()
+            << " Def: " << this->armor_arms.getDefense() << "\n";
+  std::cout << "= Armor Legs: " << this->armor_legs.getName() << " Lvl: " << this->armor_legs.getLevel()
+            << " Def: " << this->armor_legs.getDefense() << "\n"
+            << "\n";
 }
 
-string Character::getAsString() const
+std::string Character::getAsString() const
 {
-  return name + " " + to_string(distanceTravelled) + " " + to_string(gold) + " " + to_string(level) + " " +
-         to_string(exp) + " " + to_string(strength) + " " + to_string(vitality) + " " + to_string(dexterity) + " " +
-         to_string(intelligence) + " " + to_string(hp) + " " + to_string(stamina) + " " + to_string(statPoints) + " " +
-         this->weapon.toStringSave() + this->armor_head.toStringSave() + this->armor_chest.toStringSave() +
-         this->armor_arms.toStringSave() + this->armor_legs.toStringSave();
+  return name + " " + std::to_string(distanceTravelled) + " " + std::to_string(gold) + " " + std::to_string(level) +
+         " " + std::to_string(exp) + " " + std::to_string(strength) + " " + std::to_string(vitality) + " " +
+         std::to_string(dexterity) + " " + std::to_string(intelligence) + " " + std::to_string(hp) + " " +
+         std::to_string(stamina) + " " + std::to_string(statPoints) + " " + this->weapon.toStringSave() +
+         this->armor_head.toStringSave() + this->armor_chest.toStringSave() + this->armor_arms.toStringSave() +
+         this->armor_legs.toStringSave();
 }
 
-string Character::getInvAsString(bool shop)
+std::string Character::getInvAsString(bool shop)
 {
-  string inv;
+  std::string inv;
 
   for (size_t i = 0; i < this->inventory.size(); i++)
   {
     if (shop)
     {
-      inv += to_string(i) + ": " + this->inventory[i]->toString() + "\n" +
+      inv += std::to_string(i) + ": " + this->inventory[i]->toString() + "\n" +
              " - Sell value: " + std::to_string(this->inventory[i]->getSellValue()) + "\n";
     }
     else
     {
-      inv += to_string(i) + ": " + this->inventory[i]->toString() + "\n";
+      inv += std::to_string(i) + ": " + this->inventory[i]->toString() + "\n";
     }
   }
 
   return inv;
 }
 
-string Character::getInvAsStringSave()
+std::string Character::getInvAsStringSave()
 {
-  string inv;
+  std::string inv;
 
   for (size_t i = 0; i < this->inventory.size(); i++)
   {
@@ -189,13 +190,13 @@ void Character::levelUp()
 
     this->updateStats();
 
-    cout << "YOU ARE NOW LEVEL " << this->level << "!"
-         << "\n\n";
+    std::cout << "YOU ARE NOW LEVEL " << this->level << "!"
+              << "\n\n";
   }
   else
   {
-    cout << "NOT ENOUGH EXP!"
-         << "\n\n";
+    std::cout << "NOT ENOUGH EXP!"
+              << "\n\n";
   }
 }
 
@@ -218,40 +219,40 @@ void Character::updateStats()
 void Character::addToStat(int stat, int value)
 {
   if (this->statPoints < value)
-    cout << "ERROR! NOT ENOUGH STATPOINTS!"
-         << "\n";
+    std::cout << "ERROR! NOT ENOUGH STATPOINTS!"
+              << "\n";
   else
   {
     switch (stat)
     {
       case 0:
         this->strength += value;
-        cout << "STRENGTH INCREASED!"
-             << "\n";
+        std::cout << "STRENGTH INCREASED!"
+                  << "\n";
 
         break;
 
       case 1:
         this->vitality += value;
-        cout << "VITALITY INCREASED!"
-             << "\n";
+        std::cout << "VITALITY INCREASED!"
+                  << "\n";
         break;
 
       case 2:
         this->dexterity += value;
-        cout << "DEXTERITY INCREASED!"
-             << "\n";
+        std::cout << "DEXTERITY INCREASED!"
+                  << "\n";
         break;
 
       case 3:
         this->intelligence += value;
-        cout << "INTELLIGENCE INCREASED!"
-             << "\n";
+        std::cout << "INTELLIGENCE INCREASED!"
+                  << "\n";
         break;
 
       default:
-        cout << "NO SUCH STAT!"
-             << "\n";
+        std::cout << "NO SUCH STAT!"
+                  << "\n";
         break;
     }
 
@@ -265,8 +266,8 @@ void Character::equipItem(unsigned index)
 {
   if (index < 0 || index >= this->inventory.size())
   {
-    cout << "No valid item selected!"
-         << "\n\n";
+    std::cout << "No valid item selected!"
+              << "\n\n";
 
     return;
   }
@@ -313,21 +314,21 @@ void Character::equipItem(unsigned index)
         this->inventory.removeItem(index);
         break;
       default:
-        cout << "ERROR ARMOR TYPE INVALID!"
-             << "\n\n";
+        std::cout << "ERROR ARMOR TYPE INVALID!"
+                  << "\n\n";
         return;
     }
     return;
   }
-  cout << "ERROR EQUIP ITEM, ITEM IS NOT ARMOR OR WEAPON!";
+  std::cout << "ERROR EQUIP ITEM, ITEM IS NOT ARMOR OR WEAPON!";
   return;
 }
 
 void Character::removeItem(const int index)
 {
   if (index < 0 || index >= this->inventory.size())
-    cout << "ERROR, NOT POSSIBLE TO REMOVE ITEM, removeItem Character"
-         << "\n\n";
+    std::cout << "ERROR, NOT POSSIBLE TO REMOVE ITEM, removeItem Character"
+              << "\n\n";
   else
   {
     this->inventory.removeItem(index);
@@ -338,8 +339,8 @@ const Item& Character::getItem(const int index)
 {
   if (index < 0 || index >= this->inventory.size())
   {
-    cout << "ERROR, NOT POSSIBLE TO REMOVE ITEM, getItem Character"
-         << "\n\n";
+    std::cout << "ERROR, NOT POSSIBLE TO REMOVE ITEM, getItem Character"
+              << "\n\n";
     throw("ERROR OUT OF BOUNDS, GETITEM CHARACTER");
   }
 

@@ -8,6 +8,10 @@ find_package(Threads REQUIRED)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
+endif()
+
 # Include directories
 include_directories(include)
 
@@ -24,6 +28,11 @@ set(SOURCES
   src/Weapon.cpp
   src/Puzzle.cpp
   src/gui_functions.cpp
+)
+
+set(TEST_SOURCES
+  tests/ArmorTest.cpp
+  tests/InventoryTest.cpp
 )
 
 # Create the executable
@@ -58,7 +67,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 # Add test executable
-add_executable(runTests tests/ArmorTest.cpp ${SOURCES})
+add_executable(runTests ${TEST_SOURCES} ${SOURCES})
 target_link_libraries(runTests gtest gtest_main Threads::Threads)
 
 # Enables testing via the 'make test' command

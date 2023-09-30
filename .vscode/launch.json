@@ -1,0 +1,68 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to console_rpg",
+      "type": "cppdbg",
+      "request": "attach",
+      "program": "${workspaceFolder}/ConsoleRPG/build/console_rpg",
+      "processId": "${command:pickProcess}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "logging": {
+        "trace": false,
+        "traceResponse": false,
+        "engineLogging": false,
+        "programOutput": true,
+        "exceptions": true
+      },
+      "cwd": "${workspaceFolder}",
+      "externalConsole": false
+    },
+    {
+      "name": "Launch console_rpg",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/ConsoleRPG/build/console_rpg",
+      "args": [], // Any command-line arguments you want to pass
+      "stopAtEntry": false, // Set this to true if you want the debugger to stop at the main() function
+      "cwd": "${workspaceFolder}/ConsoleRPG/build",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "", // Name of a task to run before launching (e.g., build your application)
+      "miDebuggerPath": "/usr/bin/gdb",
+      "logging": {
+        "trace": false,
+        "traceResponse": false,
+        "engineLogging": false,
+        "programOutput": true,
+        "exceptions": true
+      },
+      "linux": {
+        "MIMode": "gdb"
+      },
+      "windows": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "/path_to_gdb_on_windows/gdb.exe"
+      },
+      "osx": {
+        "MIMode": "lldb"
+      }
+    }
+  ]
+}

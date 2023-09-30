@@ -5,8 +5,6 @@
 #include "Inventory.h"
 #include "STLINCLUDE.h"
 
-using namespace std;
-
 class Character
 {
 private:
@@ -45,16 +43,16 @@ private:
 
 public:
   Character();
-  Character(string name, int distanceTravelled, int gold, int level, int exp, int strength, int vitality, int dexterity,
-            int intelligence, int hp, int stamina, int statPoints);
+  Character(std::string name, int distanceTravelled, int gold, int level, int exp, int strength, int vitality,
+            int dexterity, int intelligence, int hp, int stamina, int statPoints);
   ~Character();
 
   // Functions
   void initialize(const std::string name);
   void printStats() const;
-  string getAsString() const;
-  string getInvAsString(bool shop = false);
-  string getInvAsStringSave();
+  std::string getAsString() const;
+  std::string getInvAsString(bool shop = false);
+  std::string getInvAsStringSave();
   void levelUp();
   void updateStats();
   void addToStat(int stat, int value);

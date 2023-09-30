@@ -42,7 +42,7 @@ std::shared_ptr<Item>& Inventory::operator[](const int index)
 {
   if (!itemArr)
   {
-    throw("Non Initialized Pointer");
+    throw std::runtime_error("Non Initialized Pointer");
   }
   if (index < 0 || index >= itemArr->size())
   {
@@ -59,6 +59,7 @@ void Inventory::addItem(const Item& item)
     itemArr = std::make_unique<std::vector<std::shared_ptr<Item>>>();
   }
   itemArr->push_back(item.clone());
+  // TODO: Every time something is bought, the whole inventory updates
   // TODO: Check where the removeItem and operator[] are being used, to avoid accessing the wrong memory
   //  std::sort(itemArr->begin(), itemArr->end(),
   //            std::bind(&Inventory::compareItems, this, std::placeholders::_1, std::placeholders::_2));
@@ -68,7 +69,7 @@ void Inventory::removeItem(int index)
 {
   if (!itemArr)
   {
-    return;
+    throw std::runtime_error("Non Initialized Pointer");
   }
   if (index < 0 || index >= itemArr->size())
   {
@@ -84,4 +85,28 @@ bool Inventory::compareItems(const std::shared_ptr<Item>& a, const std::shared_p
   else if (a->getItemType() == b->getItemType())
     return a->getRarity() > b->getRarity();  // Assuming higher rarity is better
   return false;
+}
+
+int Inventory::size() const
+{
+  if (!itemArr)
+  {
+    std::cout << "Inventory not initialized" << std::endl;
+    return 0;
+  }
+  return itemArr->size();
+}
+
+void Inventory::debugPrint() const
+{
+  if (!itemArr)
+  {
+    std::cout << "Inventory not initialized" << std::endl;
+    return;
+  }
+
+  for (const auto& vec : (*itemArr))
+  {
+    std::cout << vec->debugPrint() << std::endl;
+  }
 }

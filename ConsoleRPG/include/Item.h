@@ -41,7 +41,8 @@ public:
   void setName(std::string name);
 };
 
-enum rarity
+// TODO: Use this enum class
+enum class Rarity
 {
   COMMON = 0,
   UNCOMMON,
