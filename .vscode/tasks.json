@@ -6,7 +6,7 @@
       "type": "shell",
       "command": "cmake .. && make",
       "options": {
-        "cwd": "${workspaceFolder}/ConsoleRPG/build"
+        "cwd": "${workspaceFolder}/build"
       },
       "problemMatcher": [],
       "group": {

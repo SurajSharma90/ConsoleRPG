@@ -1,4 +1,8 @@
 #include "Game.h"
+// TRY GPT
+#include "ChatGPT/include/ChatGPT.h"
+#include "ChatGPT/include/Error.h"
+#include <cstdlib>
 
 int main()
 {
@@ -8,6 +12,10 @@ int main()
   std::cout << "Debug build" << std::endl;
 #endif
 
+  for (int i = 0; i < 5; ++i)
+  {
+    GPTPuzzle::example();
+  }
   srand(time(NULL));
 
   Game game;

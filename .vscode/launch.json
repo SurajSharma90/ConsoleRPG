@@ -5,7 +5,7 @@
       "name": "Attach to console_rpg",
       "type": "cppdbg",
       "request": "attach",
-      "program": "${workspaceFolder}/ConsoleRPG/build/console_rpg",
+      "program": "${workspaceFolder}/build/console_rpg",
       "processId": "${command:pickProcess}",
       "MIMode": "gdb",
       "miDebuggerPath": "/usr/bin/gdb",
@@ -30,11 +30,16 @@
       "name": "Launch console_rpg",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/ConsoleRPG/build/console_rpg",
+      "program": "${workspaceFolder}/build/console_rpg",
       "args": [], // Any command-line arguments you want to pass
       "stopAtEntry": true, // Set this to true if you want the debugger to stop at the main() function
-      "cwd": "${workspaceFolder}/ConsoleRPG/build",
-      "environment": [],
+      "cwd": "${workspaceFolder}/build",
+      "environment": [
+        {
+          "name": "OPEN_API_KEY",
+          "value": "use_your_key"
+        }
+      ],
       "externalConsole": false,
       "MIMode": "gdb",
       "setupCommands": [
