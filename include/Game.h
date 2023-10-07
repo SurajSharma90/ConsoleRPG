@@ -1,5 +1,4 @@
 #pragma once
-
 #include "STLINCLUDE.h"
 
 #include "Event.h"

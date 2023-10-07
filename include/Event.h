@@ -20,7 +20,6 @@ public:
   // Events
   // TODO: Sort items based on type (weapon/armor) and then based on type/rarity
   void shopEncouter(Character& character);
-  // TODO: killing enemies gives item with -1 rarity
   void enemyEncouter(Character& character, std::vector<Enemy>& enemies);
   void puzzleEncouter(Character& character);
   void bossEncouter(Character& character, Boss& boss);
