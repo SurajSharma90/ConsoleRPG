@@ -6,16 +6,15 @@
 
 int main()
 {
+  auto console = spdlog::stdout_color_mt("console");
+  spdlog::set_level(spdlog::level::debug);  // Set global log level to debug
+
 #ifdef NDEBUG
-  std::cout << "Release build" << std::endl;
+  spdlog::info("Release build");
 #else
-  std::cout << "Debug build" << std::endl;
+  spdlog::info("Debug build");
 #endif
 
-  for (int i = 0; i < 5; ++i)
-  {
-    GPTPuzzle::example();
-  }
   srand(time(NULL));
 
   Game game;
