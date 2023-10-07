@@ -11,6 +11,9 @@
 #include <random>     // for std::default_random_engine
 #include <set>
 
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 class Puzzle
 {
 private:
@@ -21,9 +24,9 @@ private:
 public:
   Puzzle(std::string file_name);
   virtual ~Puzzle();
-  std::string getAsString();
+  std::string getAsString() const;
 
-  inline const int& getCorrectAns() const
+  const int getCorrectAns() const
   {
     return correct_answer_;
   }
@@ -32,21 +35,30 @@ public:
 class GPTPuzzle
 {
 private:
-  std::string riddle;
-  std::vector<std::string> options;
-  int correct_answer_index;
+  std::string question_;
+  std::vector<std::string> answers_;
+  int correct_answer_index_;
   std::set<std::string>& unique_strings_;
+
+  std::string getPreviousAnswers()
+  {
+    std::stringstream ss;
+    for (const auto& v : unique_strings_)
+    {
+      ss << v << ", ";
+    }
+    return ss.str();
+  }
 
 public:
   // Constructor from JSON
   GPTPuzzle(std::set<std::string>& unique_strings) : unique_strings_(unique_strings)
   {
-    std::cout << "Constructor Called" << std::endl;
     // API token as argument
     const char* apiKey = std::getenv("OPEN_API_KEY");
     if (!apiKey)
     {
-      std::cout << "Environment variable OPEN_API_KEY is not set." << std::endl;
+      spdlog::critical("Environment variable OPEN_API_KEY is not set.");
       throw std::runtime_error("No environment variable to provide Open API key provided.");
     }
     OpenAI::ChatGPT chatGpt{ apiKey };
@@ -58,37 +70,42 @@ public:
       try
       {
         // type of user and the message to ask
-        // TODO: Check if the answer has alrady been used and check if the format is valid (wouldnt cause throw)
         auto response = chatGpt.askChatGPT(
             "user", "Give me a new logic riddle in the json format: {riddle, wrong_answers: [], correct_answer}.");
 
-        std::cout << "Raw response: \n" << response.choices[0].message.content << std::endl;
+        spdlog::debug("Raw response: \n{}", response.choices[0].message.content);
         j = nlohmann::json::parse(response.choices[0].message.content);
-        std::cout << "JSON parsed: \n" << j.dump(4) << std::endl;
+        spdlog::debug("JSON parsed: \n{}", j.dump(4));
       }
       catch (OpenAI::Error& e)
       {
         // JSON error returned by the server
         std::cout << e.what();
+        continue;
+      }
+      catch (std::exception& e)
+      {
+        std::cout << e.what();
+        continue;
       }
 
       correct_answer = j["correct_answer"].get<std::string>();
-      riddle = j["riddle"];
-      options = j["wrong_answers"].get<std::vector<std::string>>();
-      options.push_back(correct_answer);
-      correct_answer_index = options.size() - 1;  // The correct answer is initially the last one
-    } while (insertIfNotExists(correct_answer, unique_strings_));
-    // Shuffle the options
+      question_ = j["riddle"];
+      answers_ = j["wrong_answers"].get<std::vector<std::string>>();
+      answers_.push_back(correct_answer);
+      correct_answer_index_ = answers_.size() - 1;  // The correct answer is initially the last one
+    } while (!insertIfNotExists(correct_answer, unique_strings_));
+    // Shuffle the answers_
     std::random_device rd;
     std::mt19937 g(rd());
-    std::shuffle(options.begin(), options.end(), g);
+    std::shuffle(answers_.begin(), answers_.end(), g);
 
-    // Update the correct_answer_index after shuffling
-    for (size_t i = 0; i < options.size(); ++i)
+    // Update the correct_answer_index_ after shuffling
+    for (size_t i = 0; i < answers_.size(); ++i)
     {
-      if (options[i] == j["correct_answer"].get<std::string>())
+      if (answers_[i] == j["correct_answer"].get<std::string>())
       {
-        correct_answer_index = i;
+        correct_answer_index_ = i;
         break;
       }
     }
@@ -96,39 +113,48 @@ public:
 
   bool insertIfNotExists(const std::string& str, std::set<std::string>& unique_strings)
   {
-    std::cout << "Checking if " << str << " exists in the set";
+    spdlog::debug("Checking if {} exists in the set", str);
     auto [_, inserted] = unique_strings.insert(str);
-    std::cout << "Current set: ";
 
+    spdlog::debug("Current set:");
     for (auto& s : unique_strings)
     {
-      std::cout << s << " | " << std::endl;
+      spdlog::debug(s);
     }
+
+    spdlog::debug("--");
     return inserted;
   }
 
   // Display the puzzle
-  void display() const
+  std::string getAsString() const
   {
-    std::cout << "Riddle: " << riddle << std::endl;
-    std::cout << "Options:" << std::endl;
-    for (size_t i = 0; i < options.size(); ++i)
+    spdlog::info("Riddle: {}", question_);
+    std::stringstream ss;
+    ss << "Answers: \n";
+    for (size_t i = 0; i < answers_.size(); ++i)
     {
-      std::cout << i + 1 << ". " << options[i] << std::endl;
+      ss << i + 1 << ". " << answers_[i] << '\n';
     }
+    return ss.str();
+  }
+
+  const int getCorrectAns() const
+  {
+    return correct_answer_index_ + 1;
   }
 
   // Check if the provided answer is correct
   bool is_correct(int choice) const
   {
-    return choice == correct_answer_index + 1;  // +1 because choices are 1-based
+    return choice == correct_answer_index_ + 1;  // +1 because choices are 1-based
   }
 
   static void example(std::set<std::string>& unique_string)
   {
     GPTPuzzle gpt_puzzle(unique_string);
 
-    gpt_puzzle.display();
+    spdlog::info(gpt_puzzle.getAsString());
 
     int attempts = 2;
     int userChoice;

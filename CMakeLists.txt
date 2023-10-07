@@ -15,6 +15,7 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 # GoogleTest requires threading support
 find_package(Threads REQUIRED)
+find_package(spdlog REQUIRED)
 
 # Include directories
 include_directories(include)
@@ -47,7 +48,7 @@ add_executable(console_rpg
   src/main.cpp
   ${SOURCES})
 
-target_link_libraries(console_rpg PRIVATE ChatGPTDll)
+target_link_libraries(console_rpg PRIVATE ChatGPTDll spdlog::spdlog)
 
 # Fetch GoogleTest using FetchContent
 include(FetchContent)
@@ -60,7 +61,7 @@ FetchContent_MakeAvailable(googletest)
 
 # Add test executable
 add_executable(runTests ${TEST_SOURCES} ${SOURCES})
-target_link_libraries(runTests gtest gtest_main Threads::Threads)
+target_link_libraries(runTests PRIVATE gtest gtest_main Threads::Threads ChatGPTDll spdlog::spdlog)
 
 # Enables testing via the 'make test' command
 enable_testing()

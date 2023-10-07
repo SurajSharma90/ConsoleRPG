@@ -10,6 +10,8 @@
 #include <iostream>
 #include <iomanip>
 #include <memory>
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 #include "dArr.h"
 #include "gui_functions.h"
