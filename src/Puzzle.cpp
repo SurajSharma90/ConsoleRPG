@@ -43,7 +43,7 @@ Puzzle::~Puzzle()
 {
 }
 
-std::string Puzzle::getAsString()
+std::string Puzzle::getAsString() const
 {
   std::string answers = "";
 
