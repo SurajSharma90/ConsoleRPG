@@ -15,6 +15,8 @@ Event::~Event()
 void Event::generateEvent(Character& character, std::vector<Enemy>& enemies)
 {
   int i = rand() % Event::nrOfEvents;
+  // TODO: remove hardcoded 1
+  i = 1;
   switch (i)
   {
     case 0:
@@ -583,8 +585,7 @@ void Event::puzzleEncouter(Character& character)
   int gainExp = (chances * character.getLevel() * (rand() % 10 + 1));
   int gainGold = (chances * character.getLevel() * (rand() % 10 + 1));
 
-  std::set<std::string> answers_set({ "Echo", "echo", "An Echo", "An echo" });
-  GPTPuzzle puzzle(answers_set);
+  GPTPuzzle puzzle("/tmp/unique_set.txt");
 
   while (!completed && chances > 0)
   {
@@ -612,7 +613,6 @@ void Event::puzzleEncouter(Character& character)
     if (puzzle.getCorrectAns() == userAns)
     {
       completed = true;
-
       character.gainExp(gainExp);
       character.gainGold(gainGold);
       std::cout << "YOU GAINED " << gainExp << " EXP!"

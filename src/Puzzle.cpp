@@ -1,6 +1,6 @@
 #include "Puzzle.h"
 
-Puzzle::Puzzle(std::string file_name)
+Puzzle::Puzzle(const boost::filesystem::path& filepath)
 {
   // SAVE/LOAD FORMAT
   /*
@@ -11,7 +11,7 @@ Puzzle::Puzzle(std::string file_name)
   */
 
   correct_answer_ = 0;
-  std::ifstream inFile(file_name);
+  std::ifstream inFile(filepath.string());
 
   int nrOfAns = 0;
   std::string answer = "";
@@ -59,7 +59,8 @@ std::string Puzzle::getAsString() const
   return question_ + "\n" + "\n" + answers + "\n";
 }
 
-GPTPuzzle::GPTPuzzle(std::set<std::string>& unique_strings) : unique_strings_(unique_strings)
+GPTPuzzle::GPTPuzzle(const boost::filesystem::path& filepath)
+  : filepath_(filepath), unique_strings_(loadSetFromFile(filepath_))
 {
   // API token as argument
   const char* apiKey = std::getenv("OPEN_API_KEY");
@@ -118,6 +119,12 @@ GPTPuzzle::GPTPuzzle(std::set<std::string>& unique_strings) : unique_strings_(un
   }
 }
 
+GPTPuzzle::~GPTPuzzle()
+{
+  spdlog::debug("Calling destructor");
+  saveSetToFile(unique_strings_, filepath_);
+}
+
 bool GPTPuzzle::insertIfNotExists(const std::string& str, std::set<std::string>& unique_strings)
 {
   spdlog::debug("Checking if {} exists in the set", str);
@@ -154,4 +161,53 @@ const int GPTPuzzle::getCorrectAns() const
 bool GPTPuzzle::is_correct(int choice) const
 {
   return choice == correct_answer_index_ + 1;  // +1 because choices are 1-based
+}
+
+std::set<std::string> GPTPuzzle::loadSetFromFile(const boost::filesystem::path& filepath)
+{
+  std::set<std::string> loadedSet;
+
+  if (!boost::filesystem::exists(filepath))
+  {
+    spdlog::debug("File doesn't exist: {}", filepath.string());
+    std::ofstream outFile(filepath.string());  // This will create the file
+    if (!outFile.good())
+    {
+      spdlog::error("Failed to create file: {}", filepath.string());
+      return loadedSet;
+    }
+  }
+
+  std::ifstream file(filepath.string());
+  if (!file.good())
+  {
+    spdlog::error("Failed to open file for reading: {}", filepath.string());
+    return loadedSet;
+  }
+
+  std::string line;
+  while (std::getline(file, line))
+  {
+    loadedSet.insert(line);
+  }
+
+  return loadedSet;
+}
+
+void GPTPuzzle::saveSetToFile(const std::set<std::string>& data, const boost::filesystem::path& filepath)
+{
+  std::ofstream file(filepath.string(), std::ios::out);  // Overwrite the file
+
+  if (!file.is_open())
+  {
+    spdlog::error("Failed to open file for writing: {}", filepath.string());
+    return;
+  }
+
+  for (const auto& item : data)
+  {
+    file << item << '\n';
+  }
+
+  file.close();
 }

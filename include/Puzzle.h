@@ -13,6 +13,7 @@
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <boost/filesystem.hpp>
 
 class Puzzle
 {
@@ -22,7 +23,7 @@ private:
   int correct_answer_;
 
 public:
-  Puzzle(std::string file_name);
+  Puzzle(const boost::filesystem::path& filepath);
   virtual ~Puzzle();
   std::string getAsString() const;
 
@@ -39,7 +40,8 @@ private:
   std::string question_;
   std::vector<std::string> answers_;
   int correct_answer_index_;
-  std::set<std::string>& unique_strings_;
+  boost::filesystem::path filepath_;
+  std::set<std::string> unique_strings_;
 
   /**
    * @brief inserts string in a set if possible
@@ -60,22 +62,29 @@ private:
    */
   bool is_correct(int choice) const;
 
+  std::set<std::string> loadSetFromFile(const boost::filesystem::path& filepath);
+
+  void saveSetToFile(const std::set<std::string>& data, const boost::filesystem::path& filepath);
+
 public:
   /**
    * @brief Construct a new GPTPuzzle object
    *
    * @param unique_strings - set answers that have already been used
    */
-  GPTPuzzle(std::set<std::string>& unique_strings);
+  GPTPuzzle(const boost::filesystem::path& filepath);
+
+  ~GPTPuzzle();
 
   // Display the puzzle
   std::string getAsString() const;
 
   const int getCorrectAns() const;
 
-  static void example(std::set<std::string>& unique_string)
+  static void example()
   {
-    GPTPuzzle gpt_puzzle(unique_string);
+    std::string file_path = "/tmp/unique_set.txt";
+    GPTPuzzle gpt_puzzle(file_path);
 
     spdlog::info(gpt_puzzle.getAsString());
 
