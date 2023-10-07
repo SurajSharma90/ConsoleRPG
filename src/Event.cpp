@@ -15,8 +15,6 @@ Event::~Event()
 void Event::generateEvent(Character& character, std::vector<Enemy>& enemies)
 {
   int i = rand() % Event::nrOfEvents;
-  // TODO: remove hardcoded 1
-  i = 1;
   switch (i)
   {
     case 0:
