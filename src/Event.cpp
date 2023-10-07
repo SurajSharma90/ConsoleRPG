@@ -15,7 +15,8 @@ Event::~Event()
 void Event::generateEvent(Character& character, std::vector<Enemy>& enemies)
 {
   int i = rand() % Event::nrOfEvents;
-
+  // TODO: Remove this hardcoded value for i
+  i = 1;
   switch (i)
   {
     case 0:
@@ -580,12 +581,12 @@ void Event::puzzleEncouter(Character& character)
 {
   bool completed = false;
   int userAns = 0;
-  int chances = 3;
+  int chances = 2;
   int gainExp = (chances * character.getLevel() * (rand() % 10 + 1));
   int gainGold = (chances * character.getLevel() * (rand() % 10 + 1));
-  //H:\ConsoleRPG\ConsoleRPG\
 
-  Puzzle puzzle("../Puzzles/1.txt");
+  std::set<std::string> answers_set({ "Echo", "echo", "An Echo", "An echo" });
+  GPTPuzzle puzzle(answers_set);
 
   while (!completed && chances > 0)
   {
